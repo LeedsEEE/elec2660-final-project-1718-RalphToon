@@ -1,18 +1,18 @@
 //
-//  SecondViewController.m
+//  PlayerDetailViewController.m
 //  FinalProject-LOLRankedCompanion
 //
 //  Created by Ralph Toon on 03/11/2017.
 //  Copyright © 2017 University of Leeds. All rights reserved.
 //
 
-#import "SecondViewController.h"
+#import "PlayerDetailViewController.h"
 
-@interface SecondViewController ()
+@interface PlayerDetailViewController ()
 
 @end
 
-@implementation SecondViewController
+@implementation PlayerDetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

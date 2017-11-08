@@ -1,5 +1,5 @@
 //
-//  FirstViewController.h
+//  PlayerDetailViewController.h
 //  FinalProject-LOLRankedCompanion
 //
 //  Created by Ralph Toon on 03/11/2017.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FirstViewController : UIViewController
+@interface PlayerDetailViewController : UIViewController
 
 
 @end

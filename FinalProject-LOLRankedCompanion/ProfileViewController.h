@@ -1,5 +1,5 @@
 //
-//  SecondViewController.h
+//  ProfileViewController.h
 //  FinalProject-LOLRankedCompanion
 //
 //  Created by Ralph Toon on 03/11/2017.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SecondViewController : UIViewController
+@interface ProfileViewController : UIViewController
 
 
 @end
