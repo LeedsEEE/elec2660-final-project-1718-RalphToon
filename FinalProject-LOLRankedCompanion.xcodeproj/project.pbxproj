@@ -19,6 +19,8 @@
 		CAFDF42F1FB34E6D0027EE55 /* DataInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */; };
 		CAFDF4321FB350240027EE55 /* GameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4311FB350240027EE55 /* GameTableViewController.m */; };
 		CAFDF4351FB3504A0027EE55 /* LadderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */; };
+		CAFDF4381FB3511A0027EE55 /* Summoner.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4371FB3511A0027EE55 /* Summoner.m */; };
+		CAFDF43B1FB3512C0027EE55 /* DataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF43A1FB3512C0027EE55 /* DataModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,10 @@
 		CAFDF4311FB350240027EE55 /* GameTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameTableViewController.m; sourceTree = "<group>"; };
 		CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LadderTableViewController.h; sourceTree = "<group>"; };
 		CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LadderTableViewController.m; sourceTree = "<group>"; };
+		CAFDF4361FB3511A0027EE55 /* Summoner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Summoner.h; sourceTree = "<group>"; };
+		CAFDF4371FB3511A0027EE55 /* Summoner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Summoner.m; sourceTree = "<group>"; };
+		CAFDF4391FB3512C0027EE55 /* DataModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataModel.h; sourceTree = "<group>"; };
+		CAFDF43A1FB3512C0027EE55 /* DataModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +131,10 @@
 				CAFDF4311FB350240027EE55 /* GameTableViewController.m */,
 				CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */,
 				CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */,
+				CAFDF4361FB3511A0027EE55 /* Summoner.h */,
+				CAFDF4371FB3511A0027EE55 /* Summoner.m */,
+				CAFDF4391FB3512C0027EE55 /* DataModel.h */,
+				CAFDF43A1FB3512C0027EE55 /* DataModel.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
@@ -287,7 +297,9 @@
 			files = (
 				CAFDF42F1FB34E6D0027EE55 /* DataInputViewController.m in Sources */,
 				CAFDF4001FAC80030027EE55 /* PlayerDetailViewController.m in Sources */,
+				CAFDF43B1FB3512C0027EE55 /* DataModel.m in Sources */,
 				CAFDF4351FB3504A0027EE55 /* LadderTableViewController.m in Sources */,
+				CAFDF4381FB3511A0027EE55 /* Summoner.m in Sources */,
 				CAFDF3FA1FAC80030027EE55 /* AppDelegate.m in Sources */,
 				CAFDF4321FB350240027EE55 /* GameTableViewController.m in Sources */,
 				CAFDF40B1FAC80030027EE55 /* main.m in Sources */,
