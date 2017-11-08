@@ -111,8 +111,8 @@
 				CAFDF3FE1FAC80030027EE55 /* SecondViewController.h */,
 				CAFDF3FF1FAC80030027EE55 /* SecondViewController.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
-				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
+				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4091FAC80030027EE55 /* Info.plist */,
 				CAFDF40A1FAC80030027EE55 /* main.m */,
 			);
@@ -441,7 +441,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.ac.leeds.FinalProject-LOLRankedCompanion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -454,7 +454,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "uk.ac.leeds.FinalProject-LOLRankedCompanion";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
