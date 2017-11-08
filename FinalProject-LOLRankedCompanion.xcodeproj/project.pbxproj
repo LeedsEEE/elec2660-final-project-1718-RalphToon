@@ -16,6 +16,9 @@
 		CAFDF40B1FAC80030027EE55 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF40A1FAC80030027EE55 /* main.m */; };
 		CAFDF4151FAC80030027EE55 /* FinalProject_LOLRankedCompanionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4141FAC80030027EE55 /* FinalProject_LOLRankedCompanionTests.m */; };
 		CAFDF4201FAC80030027EE55 /* FinalProject_LOLRankedCompanionUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF41F1FAC80030027EE55 /* FinalProject_LOLRankedCompanionUITests.m */; };
+		CAFDF42F1FB34E6D0027EE55 /* DataInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */; };
+		CAFDF4321FB350240027EE55 /* GameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4311FB350240027EE55 /* GameTableViewController.m */; };
+		CAFDF4351FB3504A0027EE55 /* LadderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +57,12 @@
 		CAFDF41B1FAC80030027EE55 /* FinalProject-LOLRankedCompanionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FinalProject-LOLRankedCompanionUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFDF41F1FAC80030027EE55 /* FinalProject_LOLRankedCompanionUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FinalProject_LOLRankedCompanionUITests.m; sourceTree = "<group>"; };
 		CAFDF4211FAC80030027EE55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CAFDF42D1FB34E6C0027EE55 /* DataInputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DataInputViewController.h; sourceTree = "<group>"; };
+		CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DataInputViewController.m; sourceTree = "<group>"; };
+		CAFDF4301FB350240027EE55 /* GameTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameTableViewController.h; sourceTree = "<group>"; };
+		CAFDF4311FB350240027EE55 /* GameTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GameTableViewController.m; sourceTree = "<group>"; };
+		CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LadderTableViewController.h; sourceTree = "<group>"; };
+		CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LadderTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,10 +115,16 @@
 			children = (
 				CAFDF3F81FAC80030027EE55 /* AppDelegate.h */,
 				CAFDF3F91FAC80030027EE55 /* AppDelegate.m */,
+				CAFDF42D1FB34E6C0027EE55 /* DataInputViewController.h */,
+				CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */,
 				CAFDF3FB1FAC80030027EE55 /* ProfileViewController.h */,
 				CAFDF3FC1FAC80030027EE55 /* ProfileViewController.m */,
 				CAFDF3FE1FAC80030027EE55 /* PlayerDetailViewController.h */,
 				CAFDF3FF1FAC80030027EE55 /* PlayerDetailViewController.m */,
+				CAFDF4301FB350240027EE55 /* GameTableViewController.h */,
+				CAFDF4311FB350240027EE55 /* GameTableViewController.m */,
+				CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */,
+				CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
@@ -270,8 +285,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CAFDF42F1FB34E6D0027EE55 /* DataInputViewController.m in Sources */,
 				CAFDF4001FAC80030027EE55 /* PlayerDetailViewController.m in Sources */,
+				CAFDF4351FB3504A0027EE55 /* LadderTableViewController.m in Sources */,
 				CAFDF3FA1FAC80030027EE55 /* AppDelegate.m in Sources */,
+				CAFDF4321FB350240027EE55 /* GameTableViewController.m in Sources */,
 				CAFDF40B1FAC80030027EE55 /* main.m in Sources */,
 				CAFDF3FD1FAC80030027EE55 /* ProfileViewController.m in Sources */,
 			);

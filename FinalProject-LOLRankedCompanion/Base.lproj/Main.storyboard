@@ -46,10 +46,10 @@
             </objects>
             <point key="canvasLocation" x="886" y="-683"/>
         </scene>
-        <!--Root View Controller-->
+        <!--Live Game Players-->
         <scene sceneID="UN4-D7-YOz">
             <objects>
-                <tableViewController id="60h-77-G3L" sceneMemberID="viewController">
+                <tableViewController id="60h-77-G3L" customClass="GameTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="6NQ-xf-wph">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -72,7 +72,7 @@
                             <outlet property="delegate" destination="60h-77-G3L" id="BTn-3d-EfA"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="QbZ-01-Dbz"/>
+                    <navigationItem key="navigationItem" title="Live Game Players" id="QbZ-01-Dbz"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wBZ-ye-zyr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -98,7 +98,7 @@
         <!--Ladder-->
         <scene sceneID="Nvg-fp-ZRb">
             <objects>
-                <tableViewController id="Gvb-BE-k4f" sceneMemberID="viewController">
+                <tableViewController id="Gvb-BE-k4f" customClass="LadderTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="PPc-48-C0f">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -161,10 +161,10 @@
             </objects>
             <point key="canvasLocation" x="2422" y="0.0"/>
         </scene>
-        <!--View Controller-->
+        <!--Data Input View Controller-->
         <scene sceneID="qZd-HT-rq0">
             <objects>
-                <viewController id="eVQ-zu-SNr" sceneMemberID="viewController">
+                <viewController id="eVQ-zu-SNr" customClass="DataInputViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Hgu-hl-REt">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -184,6 +184,13 @@
                                     <segue destination="49e-Tb-3d3" kind="show" id="qNi-rx-82g"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Loaded by DataInputViewController" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C5s-4r-4Ba">
+                                <rect key="frame" x="51" y="340" width="272" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="8oM-ks-fQS"/>
