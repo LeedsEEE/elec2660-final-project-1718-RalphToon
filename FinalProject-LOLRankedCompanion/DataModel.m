@@ -37,6 +37,7 @@ static DataModel *_sharedInstance;
     return dataDict;
 }
 
+
 - (void) populateSummoner:(NSString *)name {
     //Generate the request string
     NSString *requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", name, self.apiKey];
