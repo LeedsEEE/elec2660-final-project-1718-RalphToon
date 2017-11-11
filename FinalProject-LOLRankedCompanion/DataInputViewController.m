@@ -17,11 +17,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.showProfileButton.enabled = NO;
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)populateDataModel:(NSString *)name {
+    DataModel *dataModel = [DataModel sharedInstance];
+    [dataModel populateSummoner:name];
+    [dataModel populatePlayers];
+    [dataModel populateLadder];
 }
 
 /*
@@ -34,4 +42,12 @@
 }
 */
 
+- (IBAction)getDataPressed:(id)sender {
+    //self.showProfileButton.enabled = YES;
+    [self populateDataModel:self.nameField.text];
+    
+}
+
+- (IBAction)showProfilePressed:(id)sender {
+}
 @end

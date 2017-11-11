@@ -7,7 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DataModel.h"
 
 @interface DataInputViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet UIButton *showProfileButton;
+@property (weak, nonatomic) IBOutlet UITextField *nameField;
+@property (weak, nonatomic) IBOutlet UILabel *errorLabel;
+
+- (IBAction)getDataPressed:(id)sender;
+- (IBAction)showProfilePressed:(id)sender;
+- (void)populateDataModel:(NSString *)name;
 
 @end
