@@ -21,8 +21,8 @@
     self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
     self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@", dataModel.currentUserSummoner.rank];
     self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
-    self.winLabel.text = [NSString stringWithFormat:@"text", dataModel.currentUserSummoner.soloWins];
-    self.lossLabel.text = dataModel.currentUserSummoner.summonerName;
+    self.winLabel.text = [NSString stringWithFormat:@"Wins = %ld", dataModel.currentUserSummoner.soloWins];
+    self.lossLabel.text = [NSString stringWithFormat:@"Losses = %ld", dataModel.currentUserSummoner.soloLosses];;
     self.winPercentLabel.text = dataModel.currentUserSummoner.summonerName;
     self.favChampLabel.text = dataModel.currentUserSummoner.summonerName;
     self.mastereyLabel.text = dataModel.currentUserSummoner.summonerName;
