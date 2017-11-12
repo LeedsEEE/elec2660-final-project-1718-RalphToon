@@ -43,8 +43,11 @@
 */
 
 - (IBAction)getDataPressed:(id)sender {
-    //self.showProfileButton.enabled = YES;
-    [self populateDataModel:self.nameField.text];
+    //For the following 2 lines:
+    //top for UI testing, bottom for API testing.
+    //Comment out as appropriate
+    self.showProfileButton.enabled = YES;
+    //[self populateDataModel:self.nameField.text];
     
 }
 
