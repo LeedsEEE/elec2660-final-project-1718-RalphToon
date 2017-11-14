@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CAD86E901FBB03C400567239 /* challenger.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E881FBB03C200567239 /* challenger.png */; };
+		CAD86E911FBB03C400567239 /* silver.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E891FBB03C300567239 /* silver.png */; };
+		CAD86E921FBB03C400567239 /* bronze.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8A1FBB03C300567239 /* bronze.png */; };
+		CAD86E931FBB03C400567239 /* master.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8B1FBB03C300567239 /* master.png */; };
+		CAD86E941FBB03C400567239 /* platinum.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8C1FBB03C300567239 /* platinum.png */; };
+		CAD86E951FBB03C400567239 /* diamond.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8D1FBB03C300567239 /* diamond.png */; };
+		CAD86E961FBB03C400567239 /* provisional.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8E1FBB03C300567239 /* provisional.png */; };
+		CAD86E971FBB03C400567239 /* gold.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8F1FBB03C300567239 /* gold.png */; };
 		CAFDF3FA1FAC80030027EE55 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF3F91FAC80030027EE55 /* AppDelegate.m */; };
 		CAFDF3FD1FAC80030027EE55 /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF3FC1FAC80030027EE55 /* ProfileViewController.m */; };
 		CAFDF4001FAC80030027EE55 /* PlayerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CAFDF3FF1FAC80030027EE55 /* PlayerDetailViewController.m */; };
@@ -41,6 +49,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CAD86E881FBB03C200567239 /* challenger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = challenger.png; sourceTree = "<group>"; };
+		CAD86E891FBB03C300567239 /* silver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = silver.png; sourceTree = "<group>"; };
+		CAD86E8A1FBB03C300567239 /* bronze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bronze.png; sourceTree = "<group>"; };
+		CAD86E8B1FBB03C300567239 /* master.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = master.png; sourceTree = "<group>"; };
+		CAD86E8C1FBB03C300567239 /* platinum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = platinum.png; sourceTree = "<group>"; };
+		CAD86E8D1FBB03C300567239 /* diamond.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = diamond.png; sourceTree = "<group>"; };
+		CAD86E8E1FBB03C300567239 /* provisional.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = provisional.png; sourceTree = "<group>"; };
+		CAD86E8F1FBB03C300567239 /* gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gold.png; sourceTree = "<group>"; };
 		CAFDF3F51FAC80030027EE55 /* FinalProject-LOLRankedCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FinalProject-LOLRankedCompanion.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFDF3F81FAC80030027EE55 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CAFDF3F91FAC80030027EE55 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -137,6 +153,14 @@
 				CAFDF43A1FB3512C0027EE55 /* DataModel.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
+				CAD86E8E1FBB03C300567239 /* provisional.png */,
+				CAD86E8A1FBB03C300567239 /* bronze.png */,
+				CAD86E891FBB03C300567239 /* silver.png */,
+				CAD86E8F1FBB03C300567239 /* gold.png */,
+				CAD86E8C1FBB03C300567239 /* platinum.png */,
+				CAD86E8D1FBB03C300567239 /* diamond.png */,
+				CAD86E8B1FBB03C300567239 /* master.png */,
+				CAD86E881FBB03C200567239 /* challenger.png */,
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4091FAC80030027EE55 /* Info.plist */,
 				CAFDF40A1FAC80030027EE55 /* main.m */,
@@ -269,7 +293,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAFDF4081FAC80030027EE55 /* LaunchScreen.storyboard in Resources */,
+				CAD86E941FBB03C400567239 /* platinum.png in Resources */,
+				CAD86E921FBB03C400567239 /* bronze.png in Resources */,
+				CAD86E971FBB03C400567239 /* gold.png in Resources */,
+				CAD86E951FBB03C400567239 /* diamond.png in Resources */,
 				CAFDF4051FAC80030027EE55 /* Assets.xcassets in Resources */,
+				CAD86E901FBB03C400567239 /* challenger.png in Resources */,
+				CAD86E961FBB03C400567239 /* provisional.png in Resources */,
+				CAD86E931FBB03C400567239 /* master.png in Resources */,
+				CAD86E911FBB03C400567239 /* silver.png in Resources */,
 				CAFDF4031FAC80030027EE55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
