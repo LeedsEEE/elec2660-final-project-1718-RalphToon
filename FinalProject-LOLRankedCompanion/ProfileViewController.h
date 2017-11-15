@@ -23,5 +23,6 @@
 //at the following address: https://developer.riotgames.com/ranked-info.html
 @property (weak, nonatomic) IBOutlet UIImageView *rankImage;
 
-@end
+- (void) updateView;
 
+@end

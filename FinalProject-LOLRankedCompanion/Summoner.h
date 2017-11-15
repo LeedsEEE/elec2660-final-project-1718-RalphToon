@@ -23,4 +23,11 @@
 @property float soloWinrate;
 @property NSString *soloLeagueID;
 
+//Obtained by Champion Masterey V3 (1 call)
+@property NSString *favChamp;
+@property NSInteger champMasterey;
+
+//Obtained by Spectator V3 (1 call)
+@property NSString *currentChamp;
+
 @end

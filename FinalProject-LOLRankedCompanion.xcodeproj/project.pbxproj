@@ -112,6 +112,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CAD86EDD1FBB750300567239 /* Rank Images */ = {
+			isa = PBXGroup;
+			children = (
+				CAD86E881FBB03C200567239 /* challenger.png */,
+				CAD86E8B1FBB03C300567239 /* master.png */,
+				CAD86E8D1FBB03C300567239 /* diamond.png */,
+				CAD86E8C1FBB03C300567239 /* platinum.png */,
+				CAD86E8F1FBB03C300567239 /* gold.png */,
+				CAD86E891FBB03C300567239 /* silver.png */,
+				CAD86E8A1FBB03C300567239 /* bronze.png */,
+				CAD86E8E1FBB03C300567239 /* provisional.png */,
+			);
+			path = "Rank Images";
+			sourceTree = "<group>";
+		};
 		CAFDF3EC1FAC80030027EE55 = {
 			isa = PBXGroup;
 			children = (
@@ -153,14 +168,7 @@
 				CAFDF43A1FB3512C0027EE55 /* DataModel.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
-				CAD86E8E1FBB03C300567239 /* provisional.png */,
-				CAD86E8A1FBB03C300567239 /* bronze.png */,
-				CAD86E891FBB03C300567239 /* silver.png */,
-				CAD86E8F1FBB03C300567239 /* gold.png */,
-				CAD86E8C1FBB03C300567239 /* platinum.png */,
-				CAD86E8D1FBB03C300567239 /* diamond.png */,
-				CAD86E8B1FBB03C300567239 /* master.png */,
-				CAD86E881FBB03C200567239 /* challenger.png */,
+				CAD86EDD1FBB750300567239 /* Rank Images */,
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4091FAC80030027EE55 /* Info.plist */,
 				CAFDF40A1FAC80030027EE55 /* main.m */,

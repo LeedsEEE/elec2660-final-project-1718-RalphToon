@@ -10,6 +10,7 @@
 
 @interface PlayerDetailViewController : UIViewController
 
+@property NSInteger playerNumber; //We need this to determine the selected player in the table
 
 @end
 

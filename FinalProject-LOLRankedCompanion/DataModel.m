@@ -28,6 +28,9 @@ static DataModel *_sharedInstance;
     return _sharedInstance;
 }
 
+
+#pragma mark api data aquisition methods
+//CHECK HOW TO GET RESPONSE USING THIS
 - (NSDictionary *) getURLData:(NSString *)requestString { //Everytime this is called 1 request is used (20/sec 100/2mins MAX)
     //Following code adapted from https://www.codementor.io/rheller/getting-reading-json-data-from-url-objective-c-du107s5mf
     NSError *error;

@@ -17,18 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
-    /*
-    self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
-    self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@", dataModel.currentUserSummoner.rank];
-    self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
-    self.winLabel.text = [NSString stringWithFormat:@"Wins = %ld", dataModel.currentUserSummoner.soloWins];
-    self.lossLabel.text = [NSString stringWithFormat:@"Losses = %ld", dataModel.currentUserSummoner.soloLosses];
-    self.winPercentLabel.text = dataModel.currentUserSummoner.summonerName;
-    self.favChampLabel.text = dataModel.currentUserSummoner.summonerName;
-    self.mastereyLabel.text = dataModel.currentUserSummoner.summonerName;
-    */
-    self.rankImage.image = [UIImage imageNamed:@"silver.png"];
+    [self updateView];
 }
 
 
@@ -37,5 +26,20 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)updateView {
+    DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
+    self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
+    self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@", dataModel.currentUserSummoner.rank];
+    self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
+    
+    self.winLabel.text = [NSString stringWithFormat:@"Wins = %ld", dataModel.currentUserSummoner.soloWins];
+    self.lossLabel.text = [NSString stringWithFormat:@"Losses = %ld", dataModel.currentUserSummoner.soloLosses];
+    self.winPercentLabel.text = [NSString stringWithFormat:@"Win Percentage = %.1f", dataModel.currentUserSummoner.soloWinrate];
+    
+    self.favChampLabel.text = dataModel.currentUserSummoner.summonerName;
+    self.mastereyLabel.text = dataModel.currentUserSummoner.summonerName;
+    
+    self.rankImage.image = [UIImage imageNamed:@"silver.png"];
+}
 
 @end
