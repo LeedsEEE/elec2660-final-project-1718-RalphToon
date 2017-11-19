@@ -16,7 +16,8 @@
 @property NSString *accountID;
 
 //Obtained by League V3 (1 call)
-@property NSString *rank;
+@property NSString *rank;             //e.g. II, III
+@property NSString *tier;             //e.g. BRONZE, GOLD
 @property NSInteger leaguePoints;
 @property NSInteger soloWins;         //This is only set up for solo q for the
 @property NSInteger soloLosses;       //purposes of the app, flex can be added
@@ -25,7 +26,7 @@
 
 //Obtained by Champion Masterey V3 (1 call)
 @property NSString *favChamp;
-@property NSInteger champMasterey;
+@property NSInteger champMastery;
 
 //Obtained by Spectator V3 (1 call)
 @property NSString *currentChamp;

@@ -28,8 +28,16 @@
 - (void)populateDataModel:(NSString *)name {
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:name];
-    [dataModel populatePlayers];
-    [dataModel populateLadder];
+    //[dataModel populatePlayers];
+    //[dataModel populateLadder];
+    
+    if ([dataModel.errorMessage length]>0){
+        self.errorLabel.text = dataModel.errorMessage;
+    }
+    
+    else { //If we get valid data, we allow the user to the rest of the app
+        self.showProfileButton.enabled = YES;
+    }
 }
 
 /*
@@ -46,8 +54,8 @@
     //For the following 2 lines:
     //top for UI testing, bottom for API testing.
     //Comment out as appropriate
-    self.showProfileButton.enabled = YES;
-    //[self populateDataModel:self.nameField.text];
+    //self.showProfileButton.enabled = YES;
+    [self populateDataModel:self.nameField.text];
     
 }
 

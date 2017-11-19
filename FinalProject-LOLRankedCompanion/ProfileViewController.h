@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lossLabel;
 @property (weak, nonatomic) IBOutlet UILabel *winPercentLabel;
 @property (weak, nonatomic) IBOutlet UILabel *favChampLabel;
-@property (weak, nonatomic) IBOutlet UILabel *mastereyLabel;
+@property (weak, nonatomic) IBOutlet UILabel *masteryLabel;
 
 //Rank images used are supplied for free by Riot Games
 //at the following address: https://developer.riotgames.com/ranked-info.html
