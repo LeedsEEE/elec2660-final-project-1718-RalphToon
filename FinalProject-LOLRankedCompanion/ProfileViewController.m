@@ -29,6 +29,9 @@
 - (void)updateView {
     DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
     self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
+    self.favChampLabel.text = [NSString stringWithFormat:@"Favourite Champion = %@", dataModel.currentUserSummoner.favChamp];
+    self.masteryLabel.text = [NSString stringWithFormat:@"Mastery = %ld", dataModel.currentUserSummoner.champMastery];
+    
     /*
     self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@ %@", dataModel.currentUserSummoner.tier, dataModel.currentUserSummoner.rank];
     self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
