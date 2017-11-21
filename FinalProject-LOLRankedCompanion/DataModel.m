@@ -20,7 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserSummoner = [[Summoner alloc]init];
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
-        self.apiKey = @"RGAPI-7ce82a49-df4c-421f-8a97-11f54814a150"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-6e3e6da8-2528-4c04-94f7-7b9632c9378a"; //ENTER API KEY HERE
     }
     return self;
 }
@@ -89,13 +89,14 @@ static DataModel *_sharedInstance;
 #pragma mark populatuing methods
 - (void) populateSummoner:(NSString *)name {
     NSString *requestString;
+    
     //SUMMONER V3 CALL
     requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", name, self.apiKey];
-    [self getURLData:requestString withKey:NULL withData:NULL];
+    [self getURLData:requestString withKey:NULL withData:NULL]; //Arguments are NULL as no extra processing required
     while (!self.completionFlag) { //Holds the program until data is recieved
     }                              //This is not best practice, update if time is left
     
-    if ([self checkDataIntegrity:self.dataDict]){
+    if ([self checkDataIntegrity:self.dataDict]) { //If data is correct we update the summoner
         self.currentUserSummoner.summonerName = [self.dataDict objectForKey:@"name"];
         self.currentUserSummoner.summonerID = [self.dataDict objectForKey:@"id"];
         self.currentUserSummoner.accountID = [self.dataDict objectForKey:@"accountId"];
@@ -103,7 +104,7 @@ static DataModel *_sharedInstance;
     
     //CHAMPION MASTERY V3 CALL
     requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.currentUserSummoner.summonerID, self.apiKey];
-    [self getURLData:requestString withKey:@"playerId" withData:self.currentUserSummoner.summonerID];
+    [self getURLData:requestString withKey:@"playerId" withData:self.currentUserSummoner.summonerID]; //Arguments needed as JSON data is array
     while (!self.completionFlag) {
     }
     
@@ -137,7 +138,49 @@ static DataModel *_sharedInstance;
 
 
 -(void) populateLadder {
-    [self.dataDict removeAllObjects]; //Clear the dictionary for the new data
+    NSString *requestString;
+    
+    //LEAGUE V3 CALL
+    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@", self.currentUserSummoner.soloLeagueID, self.apiKey];
+    [self getURLData:requestString withKey:NULL withData:NULL];
+    while (!self.completionFlag) {
+    }
+    //At this point, self.dataDict is a list of all players in the league that needs to be sorted
+    
+    if ([self checkDataIntegrity:self.dataDict]) { //If the self.dataDict is good, we can process it
+        [self.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
+        NSMutableArray *tempArray = [self.dataDict objectForKey:@"entries"];
+        
+        for (NSDictionary *entry in tempArray) { //If the player is the same rank, we add them to the ladder
+            if ([[entry objectForKey:@"rank"] isEqual:self.currentUserSummoner.rank]) {
+                Summoner *ladderSummoner = [[Summoner alloc] init];
+                ladderSummoner.summonerName = [entry objectForKey:@"playerOrTeamName"];
+                ladderSummoner.summonerID = [entry objectForKey:@"playerOrTeamId"];
+                ladderSummoner.rank = [entry objectForKey:@"rank"];
+                ladderSummoner.tier = self.currentUserSummoner.tier;
+                ladderSummoner.leaguePoints = [[entry objectForKey:@"leaguePoints"] integerValue];
+                ladderSummoner.soloWins = [[entry objectForKey:@"wins"] floatValue];
+                [self.currentUserLadder addObject:ladderSummoner]; //This builds an array of summoner objects
+            }
+        }
+
+        //Now sort self.currentUserLadder so its in LP order
+        //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
+        BOOL swapped = YES;
+        while (swapped) {
+            swapped = NO;
+            for (int i = 1; i<[self.currentUserLadder count]; i++) {
+                Summoner *player1 = self.currentUserLadder[i-1];
+                Summoner *player2 = self.currentUserLadder[i];
+
+                if (player1.leaguePoints>player2.leaguePoints) {
+                    [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
+                    swapped = YES;
+                }
+            }
+        }
+    } //Closes check data integrity if statement
+
     
 }
 

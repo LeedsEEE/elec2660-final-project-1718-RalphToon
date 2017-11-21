@@ -29,7 +29,7 @@
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:name];
     //[dataModel populatePlayers];
-    //[dataModel populateLadder];
+    [dataModel populateLadder];
     
     if ([dataModel.errorMessage length]>0){
         self.errorLabel.text = dataModel.errorMessage;
@@ -56,7 +56,6 @@
     //Comment out as appropriate
     //self.showProfileButton.enabled = YES;
     [self populateDataModel:self.nameField.text];
-    
 }
 
 - (IBAction)showProfilePressed:(id)sender {
