@@ -25,7 +25,7 @@
 + (DataModel *) sharedInstance; //This allows the data model to be accessed by all view controllers
 
 //Following methods are used to populate the model
-- (void) getURLData:(NSString *)requestString isArray:(BOOL)arrayFlag;
+- (void) getURLData:(NSString *)requestString withKey:(NSString *)dataKey withData:(NSString *)keyData;
 - (BOOL) checkDataIntegrity:(NSMutableDictionary *)dataDict;
 - (void) populateSummoner:(NSString *)name; //This must be called before the other populate methods
 - (void) populateLadder;

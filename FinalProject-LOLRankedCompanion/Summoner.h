@@ -19,8 +19,8 @@
 @property NSString *rank;             //e.g. II, III
 @property NSString *tier;             //e.g. BRONZE, GOLD
 @property NSInteger leaguePoints;
-@property NSInteger soloWins;         //This is only set up for solo q for the
-@property NSInteger soloLosses;       //purposes of the app, flex can be added
+@property float soloWins;         //This is only set up for solo q for the
+@property float soloLosses;       //purposes of the app, flex can be added
 @property float soloWinrate;
 @property NSString *soloLeagueID;
 

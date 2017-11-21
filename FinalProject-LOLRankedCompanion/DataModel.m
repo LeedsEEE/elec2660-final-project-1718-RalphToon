@@ -20,7 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserSummoner = [[Summoner alloc]init];
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
-        self.apiKey = @"RGAPI-7301f26b-d469-47f5-8584-314e646a77e7"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-7ce82a49-df4c-421f-8a97-11f54814a150"; //ENTER API KEY HERE
     }
     return self;
 }
@@ -35,13 +35,27 @@ static DataModel *_sharedInstance;
 
 #pragma mark API data aquisition methods
 - (void) getURLData:(NSString *)requestString //Everytime this is called 1 request is used (20/sec 100/2mins MAX)
-            isArray:(BOOL)arrayFlag {
+            withKey:(NSString *)dataKey
+           withData:(NSString *)keyData {
+    
     self.completionFlag = NO;
     [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
-        if (arrayFlag) { //If data is in array format, we need to do some extra processing
+        if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
+            //If data is in array format, we need to do some extra processing
             NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-            self.dataDict = tempArray[0];
+            BOOL dataNotFound = YES;
+            int count = 0;
+            while (dataNotFound) {
+                NSMutableDictionary *selectedDict = tempArray[count];
+                if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
+                    self.dataDict = selectedDict;
+                    dataNotFound = NO;
+                }
+                else {
+                    count++;
+                }
+            }
         }
         
         else {
@@ -77,7 +91,7 @@ static DataModel *_sharedInstance;
     NSString *requestString;
     //SUMMONER V3 CALL
     requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", name, self.apiKey];
-    [self getURLData:requestString isArray:NO];  //Manually setting isArray is cumbersome, find a way to detect
+    [self getURLData:requestString withKey:NULL withData:NULL];
     while (!self.completionFlag) { //Holds the program until data is recieved
     }                              //This is not best practice, update if time is left
     
@@ -87,16 +101,17 @@ static DataModel *_sharedInstance;
         self.currentUserSummoner.accountID = [self.dataDict objectForKey:@"accountId"];
     }
     
-    //CHAMPION MASTEREY V3 CALL
+    //CHAMPION MASTERY V3 CALL
     requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.currentUserSummoner.summonerID, self.apiKey];
-    [self getURLData:requestString isArray:YES];
+    [self getURLData:requestString withKey:@"playerId" withData:self.currentUserSummoner.summonerID];
     while (!self.completionFlag) {
     }
     
     if ([self checkDataIntegrity:self.dataDict]) {
         self.currentUserSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
+        
         requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", [self.dataDict objectForKey:@"championId"], self.apiKey];
-        [self getURLData:requestString isArray:NO];
+        [self getURLData:requestString withKey:NULL withData:NULL];
         while (!self.completionFlag) {
         }
         self.currentUserSummoner.favChamp = [self.dataDict objectForKey:@"name"];
@@ -104,7 +119,20 @@ static DataModel *_sharedInstance;
     }
     
     //LEAGUE V3 CALL
+    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@", self.currentUserSummoner.summonerID, self.apiKey];
+    [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
+    while (!self.completionFlag) {
+    }
     
+    if ([self checkDataIntegrity:self.dataDict]) {
+        self.currentUserSummoner.rank = [self.dataDict objectForKey:@"rank"];
+        self.currentUserSummoner.tier = [self.dataDict objectForKey:@"tier"];
+        self.currentUserSummoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
+        self.currentUserSummoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
+        self.currentUserSummoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];
+        self.currentUserSummoner.soloLeagueID = [self.dataDict objectForKey:@"leagueId"];
+        self.currentUserSummoner.soloWinrate = (self.currentUserSummoner.soloWins/(self.currentUserSummoner.soloLosses + self.currentUserSummoner.soloWins))*100;
+    }
 }
 
 
@@ -118,5 +146,4 @@ static DataModel *_sharedInstance;
     
 }
 
-
-@end
+ @end
