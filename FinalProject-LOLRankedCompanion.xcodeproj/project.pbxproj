@@ -112,6 +112,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CA2AE71B1FC4894300F3CA0A /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CAFDF42D1FB34E6C0027EE55 /* DataInputViewController.h */,
+				CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */,
+				CAFDF3FB1FAC80030027EE55 /* ProfileViewController.h */,
+				CAFDF3FC1FAC80030027EE55 /* ProfileViewController.m */,
+				CAFDF3FE1FAC80030027EE55 /* PlayerDetailViewController.h */,
+				CAFDF3FF1FAC80030027EE55 /* PlayerDetailViewController.m */,
+				CAFDF4301FB350240027EE55 /* GameTableViewController.h */,
+				CAFDF4311FB350240027EE55 /* GameTableViewController.m */,
+				CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */,
+				CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
 		CAD86EDD1FBB750300567239 /* Rank Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,16 +169,7 @@
 			children = (
 				CAFDF3F81FAC80030027EE55 /* AppDelegate.h */,
 				CAFDF3F91FAC80030027EE55 /* AppDelegate.m */,
-				CAFDF42D1FB34E6C0027EE55 /* DataInputViewController.h */,
-				CAFDF42E1FB34E6C0027EE55 /* DataInputViewController.m */,
-				CAFDF3FB1FAC80030027EE55 /* ProfileViewController.h */,
-				CAFDF3FC1FAC80030027EE55 /* ProfileViewController.m */,
-				CAFDF3FE1FAC80030027EE55 /* PlayerDetailViewController.h */,
-				CAFDF3FF1FAC80030027EE55 /* PlayerDetailViewController.m */,
-				CAFDF4301FB350240027EE55 /* GameTableViewController.h */,
-				CAFDF4311FB350240027EE55 /* GameTableViewController.m */,
-				CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */,
-				CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */,
+				CA2AE71B1FC4894300F3CA0A /* View Controllers */,
 				CAFDF4361FB3511A0027EE55 /* Summoner.h */,
 				CAFDF4371FB3511A0027EE55 /* Summoner.m */,
 				CAFDF4391FB3512C0027EE55 /* DataModel.h */,

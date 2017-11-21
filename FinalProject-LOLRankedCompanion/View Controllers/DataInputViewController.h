@@ -9,14 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "DataModel.h"
 
-@interface DataInputViewController : UIViewController
+@interface DataInputViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *showProfileButton;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 
+
 - (IBAction)getDataPressed:(id)sender;
 - (IBAction)showProfilePressed:(id)sender;
-- (void)populateDataModel:(NSString *)name;
+- (void)populateDataModel:(NSString *)name withRegion:(NSString *)region;
 
 @end

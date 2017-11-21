@@ -344,7 +344,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="675-SA-y7z">
-                                <rect key="frame" x="244" y="249.5" width="86" height="30"/>
+                                <rect key="frame" x="244" y="319.5" width="86" height="30"/>
                                 <state key="normal" title="Show Profile">
                                     <color key="titleColor" red="1" green="0.75428903810384651" blue="0.22344474508613088" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -379,7 +379,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vHb-DE-Bys">
-                                <rect key="frame" x="60" y="249.5" width="61" height="30"/>
+                                <rect key="frame" x="60" y="319.5" width="61" height="30"/>
                                 <state key="normal" title="Get Data">
                                     <color key="titleColor" red="1" green="0.75428903810000003" blue="0.22344474510000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -388,16 +388,21 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Tag" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYC-Qp-3k8">
-                                <rect key="frame" x="152" y="324.5" width="70" height="21"/>
+                                <rect key="frame" x="152" y="394.5" width="70" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pickerView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wW0-71-Su0">
+                                <rect key="frame" x="200" y="149" width="175" height="94"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" white="0.16" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Mte-bA-cAx" firstAttribute="leading" secondItem="dAY-6z-bQg" secondAttribute="trailing" constant="10" id="5i9-ai-boW"/>
-                            <constraint firstItem="vHb-DE-Bys" firstAttribute="top" secondItem="dAY-6z-bQg" secondAttribute="bottom" constant="130" id="Bkg-lV-iFk"/>
+                            <constraint firstItem="vHb-DE-Bys" firstAttribute="top" secondItem="dAY-6z-bQg" secondAttribute="bottom" constant="200" id="Bkg-lV-iFk"/>
                             <constraint firstItem="jOP-Mg-2Ma" firstAttribute="top" secondItem="8oM-ks-fQS" secondAttribute="top" constant="10" id="CP3-b0-2Im"/>
                             <constraint firstItem="dAY-6z-bQg" firstAttribute="top" secondItem="jOP-Mg-2Ma" secondAttribute="bottom" constant="35" id="G5C-2h-lC1"/>
                             <constraint firstItem="RYC-Qp-3k8" firstAttribute="centerX" secondItem="8oM-ks-fQS" secondAttribute="centerX" id="HJ5-uY-f1b"/>

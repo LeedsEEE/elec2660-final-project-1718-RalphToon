@@ -179,13 +179,11 @@ static DataModel *_sharedInstance;
                 }
             }
         }
-    } //Closes check data integrity if statement
-
-    
+    }
 }
 
 -(void) populatePlayers {
-    [self.dataDict removeAllObjects]; //Clear the dictionary for the new data
+    //NSString *requestString;
     
 }
 

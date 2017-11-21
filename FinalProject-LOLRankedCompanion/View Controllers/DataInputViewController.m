@@ -25,7 +25,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)populateDataModel:(NSString *)name {
+- (void)populateDataModel:(NSString *)name withRegion:(NSString *)region {
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:name];
     //[dataModel populatePlayers];
@@ -55,7 +55,7 @@
     //top for UI testing, bottom for API testing.
     //Comment out as appropriate
     //self.showProfileButton.enabled = YES;
-    [self populateDataModel:self.nameField.text];
+    [self populateDataModel:self.nameField.text withRegion:NULL];
 }
 
 - (IBAction)showProfilePressed:(id)sender {
