@@ -18,6 +18,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.showProfileButton.enabled = NO;
+    self.regionPicker.delegate = self;
+    self.regionPicker.dataSource = self;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,7 +27,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)populateDataModel:(NSString *)name withRegion:(NSString *)region {
+- (void)populateDataModel:(NSString *)name withRegion:(NSInteger)region {
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:name];
     //[dataModel populatePlayers];
@@ -40,36 +42,54 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 - (IBAction)getDataPressed:(id)sender {
-    //For the following 2 lines:
-    //top for UI testing, bottom for API testing.
-    //Comment out as appropriate
-    //self.showProfileButton.enabled = YES;
-    [self populateDataModel:self.nameField.text withRegion:NULL];
+    [self populateDataModel:self.nameField.text withRegion:self.selectedRegion];
 }
 
 - (IBAction)showProfilePressed:(id)sender {
 }
 
+
+#pragma mark Region Picker delegate methods
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView
+             attributedTitleForRow:(NSInteger)row
+                      forComponent:(NSInteger)component {
+    DataModel *dataModel = [DataModel sharedInstance];
+    NSString *regionString = [NSString stringWithFormat:@"%@", dataModel.regions[row]];
+    NSAttributedString *region = [[NSAttributedString alloc] initWithString:regionString attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    //Above line adapted from https://stackoverflow.com/questions/19232817/how-do-i-change-the-color-of-the-text-in-a-uipickerview-under-ios-7
+    return region;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView
+      didSelectRow:(NSInteger)row
+       inComponent:(NSInteger)component {
+    
+    self.selectedRegion = row; //Simply get the array index
+}
+
+
+#pragma mark Region Picker data source methods
 - (NSInteger)numberOfComponentsInPickerView:(nonnull UIPickerView *)pickerView {
     NSInteger components = 1; //We only need to display 1 column of regions
     return components;
 }
 
-- (NSInteger)pickerView:(nonnull UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    NSInteger rows = 11; //We have 11 regions
+- (NSInteger)pickerView:(nonnull UIPickerView *)pickerView
+numberOfRowsInComponent:(NSInteger)component {
+    NSInteger rows = 11; //We have 11 regions, this is fixed by riot
     return rows;
 }
 
+/*
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
