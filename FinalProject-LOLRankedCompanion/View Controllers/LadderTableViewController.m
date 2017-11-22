@@ -32,24 +32,30 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+    return 1; //We only have 1 section, the list of ranked players
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section {
+    DataModel *dataModel = [DataModel sharedInstance];
+    NSInteger numberOfRows = [dataModel.currentUserLadder count]; //Make rows for each player in the ladder
+    return numberOfRows;
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath {   //This method configures cell contents
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ladderTableCell" forIndexPath:indexPath];
+    DataModel *dataModel = [DataModel sharedInstance];
+    Summoner *tempSummoner = dataModel.currentUserLadder[indexPath.row];
+    cell.textLabel.text = tempSummoner.summonerName;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%ldLP", tempSummoner.leaguePoints];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
+    cell.textLabel.textColor = [UIColor whiteColor];
+
     return cell;
 }
-*/
+
 
 /*
 // Override to support conditional editing of the table view.

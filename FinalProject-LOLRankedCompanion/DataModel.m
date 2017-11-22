@@ -20,6 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserSummoner = [[Summoner alloc]init];
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
+        self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
         self.apiKey = @"RGAPI-6e3e6da8-2528-4c04-94f7-7b9632c9378a"; //ENTER API KEY HERE
     }
     return self;
@@ -173,7 +174,7 @@ static DataModel *_sharedInstance;
                 Summoner *player1 = self.currentUserLadder[i-1];
                 Summoner *player2 = self.currentUserLadder[i];
 
-                if (player1.leaguePoints>player2.leaguePoints) {
+                if (player1.leaguePoints<player2.leaguePoints) {
                     [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
                     swapped = YES;
                 }

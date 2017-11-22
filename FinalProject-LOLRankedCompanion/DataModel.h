@@ -15,6 +15,7 @@
 @property (nonatomic, strong) Summoner *currentUserSummoner;
 @property (nonatomic, strong) NSMutableArray *currentUserLadder; //Obtained by League V3 (1 call)
 @property (nonatomic, strong) NSMutableArray *liveGamePlayers; //Obtained by Spectator V3 (1 call)
+@property (nonatomic, strong) NSArray *regions;
 
 //API Manipulation Properties
 @property (nonatomic, strong) NSMutableDictionary *dataDict;

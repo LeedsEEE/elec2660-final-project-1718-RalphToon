@@ -60,4 +60,16 @@
 
 - (IBAction)showProfilePressed:(id)sender {
 }
+
+- (NSInteger)numberOfComponentsInPickerView:(nonnull UIPickerView *)pickerView {
+    NSInteger components = 1; //We only need to display 1 column of regions
+    return components;
+}
+
+- (NSInteger)pickerView:(nonnull UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    NSInteger rows = 11; //We have 11 regions
+    return rows;
+}
+
+
 @end
