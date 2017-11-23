@@ -15,11 +15,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (weak, nonatomic) IBOutlet UIPickerView *regionPicker;
-@property NSInteger selectedRegion;
 
 
 - (IBAction)getDataPressed:(id)sender;
 - (IBAction)showProfilePressed:(id)sender;
-- (void)populateDataModel:(NSString *)name withRegion:(NSInteger)region;
+- (void)populateDataModel:(NSString *)name;
 
 @end

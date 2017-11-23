@@ -21,7 +21,7 @@ static DataModel *_sharedInstance;
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-6e3e6da8-2528-4c04-94f7-7b9632c9378a"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-559a14b7-724b-4ed0-a73b-34446245382b"; //ENTER API KEY HERE
     }
     return self;
 }
@@ -92,7 +92,7 @@ static DataModel *_sharedInstance;
     NSString *requestString;
     
     //SUMMONER V3 CALL
-    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", name, self.apiKey];
+    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], name, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Arguments are NULL as no extra processing required
     while (!self.completionFlag) { //Holds the program until data is recieved
     }                              //This is not best practice, update if time is left
@@ -104,7 +104,7 @@ static DataModel *_sharedInstance;
     }
     
     //CHAMPION MASTERY V3 CALL
-    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.currentUserSummoner.summonerID, self.apiKey];
+    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:@"playerId" withData:self.currentUserSummoner.summonerID]; //Arguments needed as JSON data is array
     while (!self.completionFlag) {
     }
@@ -112,7 +112,7 @@ static DataModel *_sharedInstance;
     if ([self checkDataIntegrity:self.dataDict]) {
         self.currentUserSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
         
-        requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", [self.dataDict objectForKey:@"championId"], self.apiKey];
+        requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", self.regions[self.selectedRegion], [self.dataDict objectForKey:@"championId"], self.apiKey];
         [self getURLData:requestString withKey:NULL withData:NULL];
         while (!self.completionFlag) {
         }
@@ -121,7 +121,7 @@ static DataModel *_sharedInstance;
     }
     
     //LEAGUE V3 CALL
-    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@", self.currentUserSummoner.summonerID, self.apiKey];
+    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
     while (!self.completionFlag) {
     }
@@ -142,7 +142,7 @@ static DataModel *_sharedInstance;
     NSString *requestString;
     
     //LEAGUE V3 CALL
-    requestString = [NSString stringWithFormat:@"https://euw1.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@", self.currentUserSummoner.soloLeagueID, self.apiKey];
+    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.soloLeagueID, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL];
     while (!self.completionFlag) {
     }

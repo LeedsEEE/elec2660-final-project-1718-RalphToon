@@ -27,7 +27,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)populateDataModel:(NSString *)name withRegion:(NSInteger)region {
+- (void)populateDataModel:(NSString *)name {
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:name];
     //[dataModel populatePlayers];
@@ -44,7 +44,7 @@
 
 
 - (IBAction)getDataPressed:(id)sender {
-    [self populateDataModel:self.nameField.text withRegion:self.selectedRegion];
+    [self populateDataModel:self.nameField.text];
 }
 
 - (IBAction)showProfilePressed:(id)sender {
@@ -65,8 +65,8 @@
 - (void)pickerView:(UIPickerView *)pickerView
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component {
-    
-    self.selectedRegion = row; //Simply get the array index
+    DataModel *dataModel = [DataModel sharedInstance];
+    dataModel.selectedRegion = row; //Simply get the array index
 }
 
 
