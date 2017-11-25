@@ -27,11 +27,14 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)populateDataModel:(NSString *)name {
+
+#pragma mark DataInput button methods
+- (IBAction)getDataPressed:(id)sender {
     DataModel *dataModel = [DataModel sharedInstance];
-    [dataModel populateSummoner:name];
-    //[dataModel populatePlayers];
+    [dataModel populateSummoner:self.nameField.text];
     [dataModel populateLadder];
+    [dataModel populatePlayers]; //This is broken
+
     
     if ([dataModel.errorMessage length]>0){
         self.errorLabel.text = dataModel.errorMessage;
@@ -42,16 +45,11 @@
     }
 }
 
-
-- (IBAction)getDataPressed:(id)sender {
-    [self populateDataModel:self.nameField.text];
-}
-
 - (IBAction)showProfilePressed:(id)sender {
 }
 
 
-#pragma mark Region Picker delegate methods
+#pragma mark RegionPicker delegate methods
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView
              attributedTitleForRow:(NSInteger)row
                       forComponent:(NSInteger)component {
@@ -70,7 +68,7 @@
 }
 
 
-#pragma mark Region Picker data source methods
+#pragma mark RegionPicker data source methods
 - (NSInteger)numberOfComponentsInPickerView:(nonnull UIPickerView *)pickerView {
     NSInteger components = 1; //We only need to display 1 column of regions
     return components;

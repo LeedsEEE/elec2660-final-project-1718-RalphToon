@@ -19,6 +19,5 @@
 
 - (IBAction)getDataPressed:(id)sender;
 - (IBAction)showProfilePressed:(id)sender;
-- (void)populateDataModel:(NSString *)name;
 
 @end

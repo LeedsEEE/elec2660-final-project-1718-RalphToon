@@ -29,7 +29,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - GameTableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2; //Sections will always be 2 as there are always 2 teams
@@ -39,20 +39,29 @@
  numberOfRowsInSection:(NSInteger)section {
     //This can be updated to allow for different gamemodes with
     //different team sizes. By default we assume SR game for testing.
-    if (section == 0){
-        return 5;
-    }
-    else {
-        return 5;
-    }
+    return 5;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"gameTableCell" forIndexPath:indexPath];
+    DataModel *dataModel = [DataModel sharedInstance];
+    if (indexPath.section == 0) {
+        Summoner *tempSummoner = dataModel.liveGamePlayers[indexPath.row];
+        cell.textLabel.text = tempSummoner.summonerName;
+        //cell.detailTextLabel.text = tempSummoner.currentChamp;
+        //cell.imageView.image = [UIImage imageNamed:imageName];
+    }
     
-    // Configure the cell...
+    else if (indexPath.section == 1) {
+        Summoner *tempSummoner = dataModel.liveGamePlayers[(indexPath.row +5)];
+        cell.textLabel.text = tempSummoner.summonerName;
+        //cell.detailTextLabel.text = tempSummoner.currentChamp;
+        //cell.imageView.image = [UIImage imageNamed:imageName];
+    }
+    cell.textLabel.textColor = [UIColor whiteColor];
+    //cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
     
     return cell;
 }

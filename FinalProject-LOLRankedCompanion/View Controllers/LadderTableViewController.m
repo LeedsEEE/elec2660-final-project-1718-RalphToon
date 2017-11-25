@@ -29,7 +29,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark - LadderTableView data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1; //We only have 1 section, the list of ranked players
@@ -50,8 +50,8 @@
     Summoner *tempSummoner = dataModel.currentUserLadder[indexPath.row];
     cell.textLabel.text = tempSummoner.summonerName;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%ldLP", tempSummoner.leaguePoints];
-    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
     cell.textLabel.textColor = [UIColor whiteColor];
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
 
     return cell;
 }

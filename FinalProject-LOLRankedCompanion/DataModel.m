@@ -21,7 +21,7 @@ static DataModel *_sharedInstance;
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-559a14b7-724b-4ed0-a73b-34446245382b"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-9392ce7e-dba3-44fe-a3cf-3f951d16370e"; //ENTER API KEY HERE
     }
     return self;
 }
@@ -35,12 +35,20 @@ static DataModel *_sharedInstance;
 
 
 #pragma mark API data aquisition methods
-- (void) getURLData:(NSString *)requestString //Everytime this is called 1 request is used (20/sec 100/2mins MAX)
+/*
+ NOTE ABOUT API CALLS:
+ Everytime getURLData is called 1 request is used, except for staticData calls
+ Max number of calls limited to 20/sec AND 100/2mins
+ Everytime getData is pressed 15 calls are made
+*/
+
+- (void) getURLData:(NSString *)requestString
             withKey:(NSString *)dataKey
            withData:(NSString *)keyData {
     
     self.completionFlag = NO;
-    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString] completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString]
+                                 completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         
         if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
             //If data is in array format, we need to do some extra processing
@@ -88,7 +96,7 @@ static DataModel *_sharedInstance;
 
 
 #pragma mark populatuing methods
-- (void) populateSummoner:(NSString *)name {
+- (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
     NSString *requestString;
     
     //SUMMONER V3 CALL
@@ -138,7 +146,7 @@ static DataModel *_sharedInstance;
 }
 
 
--(void) populateLadder {
+-(void) populateLadder { //METHOD API CALLS: 1
     NSString *requestString;
     
     //LEAGUE V3 CALL
@@ -183,9 +191,58 @@ static DataModel *_sharedInstance;
     }
 }
 
--(void) populatePlayers {
-    //NSString *requestString;
+-(void) populatePlayers { //METHOD API CALLS: 11
+    //The following method contains a lot of copy paste from populateSummoner
+    //This is poor practice and the structure of the class needs to be improved if time allows
+    NSString *requestString;
+    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
+    [self getURLData:requestString withKey:NULL withData:NULL]; //Already a dictionary so we NULL arguments
+    while (!self.completionFlag) {
+    }
     
+    if ([self checkDataIntegrity:self.dataDict]) {
+        NSMutableArray *tempArray = [self.dataDict objectForKey:@"participants"];
+        
+        for (NSDictionary *entry in tempArray) { //FOR
+            Summoner *gameSummoner = [[Summoner alloc] init];
+            gameSummoner.summonerName = [entry objectForKey:@"summonerName"];
+            gameSummoner.summonerID = [entry objectForKey:@"summonerId"];
+            gameSummoner.currentChamp = [entry objectForKey:@"championId"];
+
+            //CHAMPION MASTERY V3 CALL
+            requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], gameSummoner.summonerID, self.apiKey];
+            [self getURLData:requestString withKey:@"playerId" withData:gameSummoner.summonerID]; //Arguments needed as JSON data is array
+            while (!self.completionFlag) {
+            }
+            
+            if ([self checkDataIntegrity:self.dataDict]) {
+                gameSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
+                requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", self.regions[self.selectedRegion], [self.dataDict objectForKey:@"championId"], self.apiKey];
+                [self getURLData:requestString withKey:NULL withData:NULL];
+                while (!self.completionFlag) {
+                }
+                gameSummoner.favChamp = [self.dataDict objectForKey:@"name"];
+            }
+            
+            //LEAGUE V3 CALL
+            requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], gameSummoner.summonerID, self.apiKey];
+            [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
+            while (!self.completionFlag) {
+            }
+            
+            if ([self checkDataIntegrity:self.dataDict]) {
+                gameSummoner.rank = [self.dataDict objectForKey:@"rank"];
+                gameSummoner.tier = [self.dataDict objectForKey:@"tier"];
+                gameSummoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
+                gameSummoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
+                gameSummoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];
+                gameSummoner.soloLeagueID = [self.dataDict objectForKey:@"leagueId"];
+                gameSummoner.soloWinrate = (gameSummoner.soloWins/(gameSummoner.soloLosses + gameSummoner.soloWins))*100;
+            }
+            
+            [self.liveGamePlayers addObject:gameSummoner];
+        }
+    }
 }
 
  @end
