@@ -18,9 +18,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.showProfileButton.enabled = NO;
+    self.errorLabel.hidden = YES;
     self.regionPicker.delegate = self;
     self.regionPicker.dataSource = self;
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -28,16 +30,18 @@
 }
 
 
+
 #pragma mark DataInput button methods
 - (IBAction)getDataPressed:(id)sender {
     DataModel *dataModel = [DataModel sharedInstance];
     [dataModel populateSummoner:self.nameField.text];
     [dataModel populateLadder];
-    [dataModel populatePlayers]; //This is broken
+    [dataModel populatePlayers];
 
     
     if ([dataModel.errorMessage length]>0){
         self.errorLabel.text = dataModel.errorMessage;
+        self.errorLabel.hidden = NO;
     }
     
     else { //If we get valid data, we allow the user to the rest of the app
@@ -45,8 +49,10 @@
     }
 }
 
+
 - (IBAction)showProfilePressed:(id)sender {
 }
+
 
 
 #pragma mark RegionPicker delegate methods
@@ -66,6 +72,7 @@
     DataModel *dataModel = [DataModel sharedInstance];
     dataModel.selectedRegion = row; //Simply get the array index
 }
+
 
 
 #pragma mark RegionPicker data source methods

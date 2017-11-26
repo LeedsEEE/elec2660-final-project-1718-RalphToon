@@ -20,7 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-9392ce7e-dba3-44fe-a3cf-3f951d16370e"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-06441860-23d3-4a4b-a0f4-fe982aed2e19"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
