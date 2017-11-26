@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DataModel.h"
+#import "PlayerDetailViewController.h"
 
 @interface GameTableViewController : UITableViewController
 

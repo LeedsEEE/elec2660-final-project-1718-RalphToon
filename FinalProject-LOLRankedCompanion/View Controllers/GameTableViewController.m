@@ -50,18 +50,18 @@
     if (indexPath.section == 0) {
         Summoner *tempSummoner = dataModel.liveGamePlayers[indexPath.row];
         cell.textLabel.text = tempSummoner.summonerName;
-        //cell.detailTextLabel.text = tempSummoner.currentChamp;
+        cell.detailTextLabel.text = tempSummoner.currentChamp;
         //cell.imageView.image = [UIImage imageNamed:imageName];
     }
     
     else if (indexPath.section == 1) {
         Summoner *tempSummoner = dataModel.liveGamePlayers[(indexPath.row +5)];
         cell.textLabel.text = tempSummoner.summonerName;
-        //cell.detailTextLabel.text = tempSummoner.currentChamp;
+        cell.detailTextLabel.text = tempSummoner.currentChamp;
         //cell.imageView.image = [UIImage imageNamed:imageName];
     }
     cell.textLabel.textColor = [UIColor whiteColor];
-    //cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
+    cell.detailTextLabel.textColor = [UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]; //Gold
     
     return cell;
 }
@@ -106,8 +106,17 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    PlayerDetailViewController *destinationViewController = [segue destinationViewController];
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow]; //gets co-ord of cell
+
+    if ([[segue identifier]isEqualToString:@"showPlayerDetails"]) {
+        if (indexPath.section == 0) {
+            destinationViewController.playerNumber = indexPath.row;
+        }
+        else {
+            destinationViewController.playerNumber = (indexPath.row +5);
+        }
+    }
 }
 
 @end

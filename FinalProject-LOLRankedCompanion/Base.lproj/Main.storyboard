@@ -332,12 +332,6 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Champion Masterey: &lt;1000000&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTb-V6-npd">
-                                <rect key="frame" x="20" y="499" width="253" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dwe-fC-M49">
                                 <rect key="frame" x="205" y="161" width="150" height="150"/>
                                 <constraints>
@@ -345,12 +339,24 @@
                                     <constraint firstAttribute="height" constant="150" id="w9X-Z9-bYD"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Champion: &lt;Champ Name&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Gw-q9-PHE">
+                                <rect key="frame" x="20" y="499" width="275" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Champion Masterey: &lt;1000000&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YTb-V6-npd">
+                                <rect key="frame" x="20" y="530" width="253" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.16" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="7If-bh-pv8" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="0hq-Ph-jdB"/>
+                            <constraint firstItem="4Gw-q9-PHE" firstAttribute="top" secondItem="y7N-F8-Oax" secondAttribute="bottom" constant="10" id="2ku-YR-A62"/>
                             <constraint firstItem="qFM-FK-oYR" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="6ur-EF-O6q"/>
-                            <constraint firstItem="YTb-V6-npd" firstAttribute="top" secondItem="y7N-F8-Oax" secondAttribute="bottom" constant="10" id="Drs-pp-x3E"/>
                             <constraint firstItem="e1d-xT-Zhc" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="H0g-Mt-Xdt"/>
                             <constraint firstItem="dwe-fC-M49" firstAttribute="top" secondItem="Vda-6O-0Nl" secondAttribute="bottom" constant="10" id="ILo-uE-w2F"/>
                             <constraint firstItem="fx3-8f-1cr" firstAttribute="top" secondItem="949-4L-N07" secondAttribute="bottom" constant="10" id="LTI-RG-9gR"/>
@@ -362,20 +368,34 @@
                             <constraint firstItem="qFM-FK-oYR" firstAttribute="top" secondItem="O1u-W8-tvY" secondAttribute="top" constant="20" id="Yu4-kX-kgF"/>
                             <constraint firstItem="O1u-W8-tvY" firstAttribute="trailing" secondItem="dwe-fC-M49" secondAttribute="trailing" constant="20" id="aut-4c-H1F"/>
                             <constraint firstItem="949-4L-N07" firstAttribute="top" secondItem="dwe-fC-M49" secondAttribute="bottom" constant="14" id="cXn-nE-c0o"/>
+                            <constraint firstItem="4Gw-q9-PHE" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="eui-wI-Hat"/>
                             <constraint firstItem="y7N-F8-Oax" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="fXH-Qc-Kiu"/>
                             <constraint firstItem="cKJ-Pa-Le9" firstAttribute="top" secondItem="fx3-8f-1cr" secondAttribute="bottom" constant="10" id="gKE-ro-2zh"/>
                             <constraint firstItem="949-4L-N07" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="hvd-AA-GTb"/>
                             <constraint firstItem="cKJ-Pa-Le9" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="iN4-dZ-xp6"/>
+                            <constraint firstItem="YTb-V6-npd" firstAttribute="top" secondItem="4Gw-q9-PHE" secondAttribute="bottom" constant="10" id="v7G-EI-3xa"/>
                             <constraint firstItem="e1d-xT-Zhc" firstAttribute="top" secondItem="7If-bh-pv8" secondAttribute="bottom" constant="10" id="yjh-Mm-IgY"/>
                             <constraint firstItem="Vda-6O-0Nl" firstAttribute="leading" secondItem="O1u-W8-tvY" secondAttribute="leading" constant="20" id="zHu-D0-B1I"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="O1u-W8-tvY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Second" image="second" id="cPa-gy-q4n"/>
+                    <connections>
+                        <outlet property="champMasteryLabel" destination="YTb-V6-npd" id="1pS-vF-QuH"/>
+                        <outlet property="currentChampLabel" destination="4Gw-q9-PHE" id="c3w-cX-DFN"/>
+                        <outlet property="favChampLabel" destination="y7N-F8-Oax" id="OjM-SP-7YZ"/>
+                        <outlet property="lossLabel" destination="fx3-8f-1cr" id="gQ3-I1-HfJ"/>
+                        <outlet property="lpLabel" destination="e1d-xT-Zhc" id="gbz-ke-cIK"/>
+                        <outlet property="nameLabel" destination="Vda-6O-0Nl" id="KMC-3h-x6q"/>
+                        <outlet property="rankImage" destination="dwe-fC-M49" id="dB5-M0-Vcx"/>
+                        <outlet property="rankLabel" destination="7If-bh-pv8" id="xQz-cX-o0P"/>
+                        <outlet property="winLabel" destination="949-4L-N07" id="cUO-Nd-4SR"/>
+                        <outlet property="winPercentLabel" destination="cKJ-Pa-Le9" id="y7u-rm-yLb"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Nw-L8-lE0" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2422" y="0.0"/>
+            <point key="canvasLocation" x="2421.5999999999999" y="-0.44977511244377816"/>
         </scene>
         <!--Data Input View Controller-->
         <scene sceneID="qZd-HT-rq0">

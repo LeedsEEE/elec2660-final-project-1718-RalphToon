@@ -13,8 +13,7 @@
 static DataModel *_sharedInstance;
 
 #pragma mark Init methods
-- (instancetype)init
-{
+- (instancetype)init {
     self = [super init];
     if (self) {
         self.currentUserSummoner = [[Summoner alloc]init];
@@ -22,9 +21,21 @@ static DataModel *_sharedInstance;
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
         self.apiKey = @"RGAPI-9392ce7e-dba3-44fe-a3cf-3f951d16370e"; //ENTER API KEY HERE
+        
+        //Get the champ list
+        NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
+        [self getURLData:requestString withKey:NULL withData:NULL];
+        while (!self.completionFlag) {
+        }
+        
+        if ([self checkDataIntegrity:self.dataDict]) {
+            NSMutableDictionary *tempDict = [self.dataDict objectForKey:@"data"];
+            self.champList = [[NSMutableArray alloc] initWithArray:[tempDict allValues]];
+        }
     }
     return self;
 }
+
 
 +(DataModel *) sharedInstance { //This creates the shared data model if it doesnt exist
     if (!_sharedInstance) {
@@ -32,6 +43,7 @@ static DataModel *_sharedInstance;
     }
     return _sharedInstance;
 }
+
 
 
 #pragma mark API data aquisition methods
@@ -95,6 +107,18 @@ static DataModel *_sharedInstance;
 }
 
 
+- (NSString *) searchChampList:(NSInteger)champId { //This is a place to improve efficiency by improving the search algorithm
+    NSString *champName;
+    for (NSDictionary *champion in self.champList) {
+        if (champId == [[champion objectForKey:@"id"] integerValue]) {
+            champName = [champion objectForKey:@"name"];
+        }
+    }
+    return champName;
+}
+
+
+
 #pragma mark populatuing methods
 - (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
     NSString *requestString;
@@ -119,13 +143,7 @@ static DataModel *_sharedInstance;
     
     if ([self checkDataIntegrity:self.dataDict]) {
         self.currentUserSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
-        
-        requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", self.regions[self.selectedRegion], [self.dataDict objectForKey:@"championId"], self.apiKey];
-        [self getURLData:requestString withKey:NULL withData:NULL];
-        while (!self.completionFlag) {
-        }
-        self.currentUserSummoner.favChamp = [self.dataDict objectForKey:@"name"];
-
+        self.currentUserSummoner.favChamp = [self searchChampList:[[self.dataDict objectForKey:@"championId"] integerValue]];
     }
     
     //LEAGUE V3 CALL
@@ -173,8 +191,9 @@ static DataModel *_sharedInstance;
             }
         }
 
-        //Now sort self.currentUserLadder so its in LP order
+        //Now sort self.currentUserLadder so its in LP (ladder) order
         //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
+        //Improving this sort can help efficiency if time is left
         BOOL swapped = YES;
         while (swapped) {
             swapped = NO;
@@ -191,10 +210,14 @@ static DataModel *_sharedInstance;
     }
 }
 
+
 -(void) populatePlayers { //METHOD API CALLS: 11
     //The following method contains a lot of copy paste from populateSummoner
     //This is poor practice and the structure of the class needs to be improved if time allows
+    [self.liveGamePlayers removeAllObjects];
     NSString *requestString;
+    
+    //SPECTATOR V3 CALL
     requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Already a dictionary so we NULL arguments
     while (!self.completionFlag) {
@@ -203,11 +226,11 @@ static DataModel *_sharedInstance;
     if ([self checkDataIntegrity:self.dataDict]) {
         NSMutableArray *tempArray = [self.dataDict objectForKey:@"participants"];
         
-        for (NSDictionary *entry in tempArray) { //FOR
+        for (NSDictionary *entry in tempArray) {
             Summoner *gameSummoner = [[Summoner alloc] init];
             gameSummoner.summonerName = [entry objectForKey:@"summonerName"];
             gameSummoner.summonerID = [entry objectForKey:@"summonerId"];
-            gameSummoner.currentChamp = [entry objectForKey:@"championId"];
+            gameSummoner.currentChamp = [self searchChampList:[[entry objectForKey:@"championId"] integerValue]];
 
             //CHAMPION MASTERY V3 CALL
             requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], gameSummoner.summonerID, self.apiKey];
@@ -217,11 +240,7 @@ static DataModel *_sharedInstance;
             
             if ([self checkDataIntegrity:self.dataDict]) {
                 gameSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
-                requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions/%@?locale=en_US&api_key=%@", self.regions[self.selectedRegion], [self.dataDict objectForKey:@"championId"], self.apiKey];
-                [self getURLData:requestString withKey:NULL withData:NULL];
-                while (!self.completionFlag) {
-                }
-                gameSummoner.favChamp = [self.dataDict objectForKey:@"name"];
+                gameSummoner.favChamp = [self searchChampList:[[self.dataDict objectForKey:@"championId"] integerValue]];
             }
             
             //LEAGUE V3 CALL
@@ -244,5 +263,6 @@ static DataModel *_sharedInstance;
         }
     }
 }
+
 
  @end

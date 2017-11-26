@@ -15,6 +15,7 @@
 @property (nonatomic, strong) Summoner *currentUserSummoner;
 @property (nonatomic, strong) NSMutableArray *currentUserLadder; //Obtained by League V3 (1 call)
 @property (nonatomic, strong) NSMutableArray *liveGamePlayers; //Obtained by Spectator V3 (1 call)
+@property (nonatomic, strong) NSMutableArray *champList;
 @property (nonatomic, strong) NSArray *regions;
 @property NSInteger selectedRegion;
 
@@ -32,6 +33,7 @@
 - (void) populateSummoner:(NSString *)name; //This must be called before the other populate methods
 - (void) populateLadder;
 - (void) populatePlayers;
+- (NSString *) searchChampList:(NSInteger)champId;
 
 
 @end
