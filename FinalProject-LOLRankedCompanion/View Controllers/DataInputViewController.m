@@ -32,13 +32,16 @@
 
 
 #pragma mark DataInput button methods
-- (IBAction)getDataPressed:(id)sender {
+- (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
     DataModel *dataModel = [DataModel sharedInstance];
+    dataModel.errorMessage = @"";
     [dataModel populateSummoner:self.nameField.text];
-    [dataModel populateLadder];
-    [dataModel populatePlayers];
+    if ([dataModel.errorMessage isEqualToString:@""]) {
+    //If we have no error getting the summoner, we get the other data
+        [dataModel populateLadder];
+        [dataModel populatePlayers];
+    }
 
-    
     if ([dataModel.errorMessage length]>0){
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;

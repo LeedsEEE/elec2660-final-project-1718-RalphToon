@@ -20,7 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-06441860-23d3-4a4b-a0f4-fe982aed2e19"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-75720ebd-8e24-49f8-bb98-bd0760f36b4c"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -61,26 +61,38 @@ static DataModel *_sharedInstance;
     self.completionFlag = NO;
     [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString]
                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
-        
-        if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
+                                     
+        if (data != NULL) {
+        //We can only use the data if we get a response
+            if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
             //If data is in array format, we need to do some extra processing
-            NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-            BOOL dataNotFound = YES;
-            int count = 0;
-            while (dataNotFound) {
-                NSMutableDictionary *selectedDict = tempArray[count];
-                if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
-                    self.dataDict = selectedDict;
-                    dataNotFound = NO;
+                NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                if ([tempArray count] == 0) {
+                //If array is empty due to error
+                    self.errorMessage = @"Empty data array returned";
                 }
                 else {
-                    count++;
+                //We search a populated array for our dataDict
+                    BOOL dataNotFound = YES;
+                    int count = 0;
+                    while (dataNotFound) {
+                        NSMutableDictionary *selectedDict = tempArray[count];
+                        if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
+                            self.dataDict = selectedDict;
+                            dataNotFound = NO;
+                        }
+                        else {
+                            count++;
+                        }
+                    }
                 }
             }
+            else {
+                self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            }
         }
-        
-        else {
-            self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        else { //If the API fails to return data, we let the user know
+            self.errorMessage = @"No data recieved, try again";
         }
         
         self.completionFlag = YES;
@@ -92,15 +104,24 @@ static DataModel *_sharedInstance;
 
 - (BOOL) checkDataIntegrity:(NSMutableDictionary *)dataDict {
     BOOL correctData = YES;
-    self.errorMessage = @"";
-    NSArray *keys = [dataDict allKeys]; //We list all the keys in the Data Dictionary
-    for (NSString* keyName in keys) {
-        if ([keyName isEqualToString:@"status"]) { //Then check all the keys for "status" which indicates an error
-            correctData = NO;
-            NSDictionary *errorDict = [dataDict objectForKey:@"status"];
-            self.errorMessage = [NSString stringWithFormat:@"Error %@: %@",[errorDict objectForKey:@"status_code"],[errorDict objectForKey:@"message"]];
+    
+    if ([self.errorMessage  isEqual:@"No data recieved, try again"]) { //If the API doesnt respond
+        correctData = NO;
+    }
+    else if ([self.errorMessage  isEqual:@"Empty data array returned"]) { //If the API responds but gives an empty array
+        correctData = NO;
+    }
+    else { //If the API returns an Error dictionary
+        NSArray *keys = [dataDict allKeys]; //We list all the keys in the Data Dictionary
+        for (NSString* keyName in keys) {
+            if ([keyName isEqualToString:@"status"]) { //Then check all the keys for "status" which indicates an error
+                correctData = NO;
+                NSDictionary *errorDict = [dataDict objectForKey:@"status"];
+                self.errorMessage = [NSString stringWithFormat:@"Error: %@",[errorDict objectForKey:@"message"]];
             
-            NSLog(@"Error Code = %@", [errorDict objectForKey:@"status_code"]); //Used to print error to console
+                NSLog(@"Error Code = %@", [errorDict objectForKey:@"status_code"]); //Used to print error to console for debugging
+        
+            }
         }
     }
     return correctData;
