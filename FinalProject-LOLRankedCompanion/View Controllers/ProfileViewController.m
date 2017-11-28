@@ -29,8 +29,18 @@
 - (void)updateView {
     DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
     self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
-    self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@ %@", dataModel.currentUserSummoner.tier, dataModel.currentUserSummoner.rank];
-    self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
+    
+    if ([dataModel.currentUserSummoner.rank length] == 0) { //If the user is unranked
+        self.rankLabel.text = @"Rank = Unranked";
+        self.rankImage.image = [UIImage imageNamed:@"provisional.png"];
+        self.lpLabel.text = @"LP = N/A";
+    }
+    else {
+        self.rankLabel.text = [NSString stringWithFormat:@"Rank = %@ %@", dataModel.currentUserSummoner.tier, dataModel.currentUserSummoner.rank];
+        self.lpLabel.text = [NSString stringWithFormat:@"LP = %ld", dataModel.currentUserSummoner.leaguePoints];
+        NSString *imageName = [NSString stringWithFormat:@"%@.png", [dataModel.currentUserSummoner.tier lowercaseString]];
+        self.rankImage.image = [UIImage imageNamed:imageName];
+    }
     
     self.winLabel.text = [NSString stringWithFormat:@"Wins = %.0f", dataModel.currentUserSummoner.soloWins];
     self.lossLabel.text = [NSString stringWithFormat:@"Losses = %.0f", dataModel.currentUserSummoner.soloLosses];
@@ -39,8 +49,7 @@
     self.favChampLabel.text = [NSString stringWithFormat:@"Favourite Champion = %@", dataModel.currentUserSummoner.favChamp];
     self.masteryLabel.text = [NSString stringWithFormat:@"Mastery = %ld", dataModel.currentUserSummoner.champMastery];
     
-    NSString *imageName = [NSString stringWithFormat:@"%@.png", [dataModel.currentUserSummoner.tier lowercaseString]];
-    self.rankImage.image = [UIImage imageNamed:imageName];
+
 }
 
 @end

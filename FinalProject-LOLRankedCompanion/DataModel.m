@@ -19,6 +19,8 @@ static DataModel *_sharedInstance;
         self.currentUserSummoner = [[Summoner alloc]init];
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
+        
+        //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
         self.apiKey = @"RGAPI-d9b7eecd-7422-46b4-93ac-74b8682eedb5"; //ENTER API KEY HERE
         
@@ -62,15 +64,14 @@ static DataModel *_sharedInstance;
     [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString]
                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                      
-        if (data != NULL) {     //We can only use the data if we get a response
-            if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
-            //If data is in array format, we need to do some extra processing
+        if (data != NULL) { //We can only use the data if we get a response
+            if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) { //If data is in array format, we need to do some extra processing
                 NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                if ([tempArray count] == 0) {      //If array is empty due to error
+                
+                if ([tempArray count] == 0) { //If array is empty due to error
                     self.errorMessage = @"Empty data array returned";
                 }
-                else {
-                //We search a populated array for our dataDict
+                else { //We search a populated array for our dataDict
                     BOOL dataNotFound = YES;
                     int count = 0;
                     while (dataNotFound) {
@@ -90,7 +91,7 @@ static DataModel *_sharedInstance;
             }
         }
         else {      //If the API fails to return data, we let the user know
-            self.errorMessage = @"No data recieved, try again";
+            self.errorMessage = @"Failed to recieve any data from the Riot API, please check your connection and try again";
         }
         
         self.completionFlag = YES;
@@ -117,7 +118,7 @@ static DataModel *_sharedInstance;
                 NSDictionary *errorDict = [dataDict objectForKey:@"status"];
                 self.errorMessage = [NSString stringWithFormat:@"Error: %@",[errorDict objectForKey:@"message"]];
             
-                NSLog(@"Error Code = %@", [errorDict objectForKey:@"status_code"]); //Used to print error to console for debugging
+                NSLog(@"Error Code = %@ %@", [errorDict objectForKey:@"status_code"], [errorDict objectForKey:@"message"]); //Used to print error to console for debugging
         
             }
         }
