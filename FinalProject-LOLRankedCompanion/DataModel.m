@@ -20,7 +20,7 @@ static DataModel *_sharedInstance;
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-75720ebd-8e24-49f8-bb98-bd0760f36b4c"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-d9b7eecd-7422-46b4-93ac-74b8682eedb5"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -62,13 +62,11 @@ static DataModel *_sharedInstance;
     [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString]
                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                      
-        if (data != NULL) {
-        //We can only use the data if we get a response
+        if (data != NULL) {     //We can only use the data if we get a response
             if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
             //If data is in array format, we need to do some extra processing
                 NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                if ([tempArray count] == 0) {
-                //If array is empty due to error
+                if ([tempArray count] == 0) {      //If array is empty due to error
                     self.errorMessage = @"Empty data array returned";
                 }
                 else {
@@ -87,11 +85,11 @@ static DataModel *_sharedInstance;
                     }
                 }
             }
-            else {
+            else { //If the data is a dictionary, we can use it as is
                 self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
             }
         }
-        else { //If the API fails to return data, we let the user know
+        else {      //If the API fails to return data, we let the user know
             self.errorMessage = @"No data recieved, try again";
         }
         
@@ -105,10 +103,10 @@ static DataModel *_sharedInstance;
 - (BOOL) checkDataIntegrity:(NSMutableDictionary *)dataDict {
     BOOL correctData = YES;
     
-    if ([self.errorMessage  isEqual:@"No data recieved, try again"]) { //If the API doesnt respond
+    if ([self.errorMessage isEqual:@"No data recieved, try again"]) { //If the API doesnt respond
         correctData = NO;
     }
-    else if ([self.errorMessage  isEqual:@"Empty data array returned"]) { //If the API responds but gives an empty array
+    else if ([self.errorMessage isEqual:@"Empty data array returned"]) { //If the API responds but gives an empty array
         correctData = NO;
     }
     else { //If the API returns an Error dictionary
@@ -187,44 +185,46 @@ static DataModel *_sharedInstance;
 
 -(void) populateLadder { //METHOD API CALLS: 1
     NSString *requestString;
+    [self.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
     
     //LEAGUE V3 CALL
-    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.soloLeagueID, self.apiKey];
-    [self getURLData:requestString withKey:NULL withData:NULL];
-    while (!self.completionFlag) {
-    }
-    //At this point, self.dataDict is a list of all players in the league that needs to be sorted
-    
-    if ([self checkDataIntegrity:self.dataDict]) { //If the self.dataDict is good, we can process it
-        [self.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
-        NSMutableArray *tempArray = [self.dataDict objectForKey:@"entries"];
-        
-        for (NSDictionary *entry in tempArray) { //If the player is the same rank, we add them to the ladder
-            if ([[entry objectForKey:@"rank"] isEqual:self.currentUserSummoner.rank]) {
-                Summoner *ladderSummoner = [[Summoner alloc] init];
-                ladderSummoner.summonerName = [entry objectForKey:@"playerOrTeamName"];
-                ladderSummoner.summonerID = [entry objectForKey:@"playerOrTeamId"];
-                ladderSummoner.rank = [entry objectForKey:@"rank"];
-                ladderSummoner.tier = self.currentUserSummoner.tier;
-                ladderSummoner.leaguePoints = [[entry objectForKey:@"leaguePoints"] integerValue];
-                ladderSummoner.soloWins = [[entry objectForKey:@"wins"] floatValue];
-                [self.currentUserLadder addObject:ladderSummoner]; //This builds an array of summoner objects
-            }
+    if ([self.currentUserSummoner.soloLeagueID length] > 0) { //Only build the league if the user has one
+        requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.soloLeagueID, self.apiKey];
+        [self getURLData:requestString withKey:NULL withData:NULL];
+        while (!self.completionFlag) {
         }
+        
+        //At this point, self.dataDict is a list of all players in the league that needs to be sorted
+        if ([self checkDataIntegrity:self.dataDict]) {
+            NSMutableArray *tempArray = [self.dataDict objectForKey:@"entries"];
+            
+            for (NSDictionary *entry in tempArray) { //If the player is the same rank, we add them to the ladder
+                if ([[entry objectForKey:@"rank"] isEqual:self.currentUserSummoner.rank]) {
+                    Summoner *ladderSummoner = [[Summoner alloc] init];
+                    ladderSummoner.summonerName = [entry objectForKey:@"playerOrTeamName"];
+                    ladderSummoner.summonerID = [entry objectForKey:@"playerOrTeamId"];
+                    ladderSummoner.rank = [entry objectForKey:@"rank"];
+                    ladderSummoner.tier = self.currentUserSummoner.tier;
+                    ladderSummoner.leaguePoints = [[entry objectForKey:@"leaguePoints"] integerValue];
+                    ladderSummoner.soloWins = [[entry objectForKey:@"wins"] floatValue];
+                    [self.currentUserLadder addObject:ladderSummoner]; //This builds an array of summoner objects
+                }
+            }
 
-        //Now sort self.currentUserLadder so its in LP (ladder) order
-        //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
-        //Improving this sort can help efficiency if time is left
-        BOOL swapped = YES;
-        while (swapped) {
-            swapped = NO;
-            for (int i = 1; i<[self.currentUserLadder count]; i++) {
-                Summoner *player1 = self.currentUserLadder[i-1];
-                Summoner *player2 = self.currentUserLadder[i];
+            //Now sort self.currentUserLadder so its in LP (ladder) order
+            //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
+            //Improving this sort can help efficiency if time is left
+            BOOL swapped = YES;
+            while (swapped) {
+                swapped = NO;
+                for (int i = 1; i<[self.currentUserLadder count]; i++) {
+                    Summoner *player1 = self.currentUserLadder[i-1];
+                    Summoner *player2 = self.currentUserLadder[i];
 
-                if (player1.leaguePoints<player2.leaguePoints) {
-                    [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
-                    swapped = YES;
+                    if (player1.leaguePoints<player2.leaguePoints) {
+                        [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
+                        swapped = YES;
+                    }
                 }
             }
         }

@@ -21,6 +21,7 @@
     self.errorLabel.hidden = YES;
     self.regionPicker.delegate = self;
     self.regionPicker.dataSource = self;
+    
 }
 
 
@@ -35,20 +36,29 @@
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
     DataModel *dataModel = [DataModel sharedInstance];
     dataModel.errorMessage = @"";
-    [dataModel populateSummoner:self.nameField.text];
-    if ([dataModel.errorMessage isEqualToString:@""]) {
-    //If we have no error getting the summoner, we get the other data
-        [dataModel populateLadder];
+    [dataModel populateSummoner:self.nameField.text]; //Attempt to populate the summoner
+    
+    if ([dataModel.errorMessage isEqualToString:@""] || [dataModel.errorMessage isEqualToString:@"Empty data array returned"]) {
+        //If we have no error getting the summoner, we get the other data
+        if ([dataModel.currentUserSummoner.soloLeagueID length]!=0) { //If the player has a league, we retrieve it
+            [dataModel populateLadder];
+        }
+        /*
+         We try to populate the game whether it exists or not
+         As we have no test to see if one does.
+         If the player is not in a game this simply returns an error message that we can ignore.
+        */
         [dataModel populatePlayers];
-    }
-
-    if ([dataModel.errorMessage length]>0){
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
+        self.showProfileButton.enabled = YES;
+        
     }
     
-    else { //If we get valid data, we allow the user to the rest of the app
-        self.showProfileButton.enabled = YES;
+    else {      //If we dont get valid summoner data, we dont let the user into the app
+        self.showProfileButton.enabled = NO;
+        self.errorLabel.text = dataModel.errorMessage;
+        self.errorLabel.hidden = NO;
     }
 }
 
@@ -89,6 +99,8 @@ numberOfRowsInComponent:(NSInteger)component {
     NSInteger rows = 11; //We have 11 regions, this is fixed by riot
     return rows;
 }
+
+
 
 /*
  #pragma mark - Navigation

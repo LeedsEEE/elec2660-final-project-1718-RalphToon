@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CA2B210F1FCC7E1B00E31DD1 /* CustomTabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CA2B210E1FCC7E1B00E31DD1 /* CustomTabBarViewController.m */; };
+		CA2B21111FCDBAA700E31DD1 /* ReadMe.rtf in Resources */ = {isa = PBXBuildFile; fileRef = CA2B21101FCDBAA700E31DD1 /* ReadMe.rtf */; };
 		CAD86E901FBB03C400567239 /* challenger.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E881FBB03C200567239 /* challenger.png */; };
 		CAD86E911FBB03C400567239 /* silver.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E891FBB03C300567239 /* silver.png */; };
 		CAD86E921FBB03C400567239 /* bronze.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD86E8A1FBB03C300567239 /* bronze.png */; };
@@ -49,6 +51,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA2B210D1FCC7E1B00E31DD1 /* CustomTabBarViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CustomTabBarViewController.h; sourceTree = "<group>"; };
+		CA2B210E1FCC7E1B00E31DD1 /* CustomTabBarViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomTabBarViewController.m; sourceTree = "<group>"; };
+		CA2B21101FCDBAA700E31DD1 /* ReadMe.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = ReadMe.rtf; sourceTree = "<group>"; };
 		CAD86E881FBB03C200567239 /* challenger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = challenger.png; sourceTree = "<group>"; };
 		CAD86E891FBB03C300567239 /* silver.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = silver.png; sourceTree = "<group>"; };
 		CAD86E8A1FBB03C300567239 /* bronze.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bronze.png; sourceTree = "<group>"; };
@@ -125,6 +130,8 @@
 				CAFDF4311FB350240027EE55 /* GameTableViewController.m */,
 				CAFDF4331FB3504A0027EE55 /* LadderTableViewController.h */,
 				CAFDF4341FB3504A0027EE55 /* LadderTableViewController.m */,
+				CA2B210D1FCC7E1B00E31DD1 /* CustomTabBarViewController.h */,
+				CA2B210E1FCC7E1B00E31DD1 /* CustomTabBarViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -180,6 +187,7 @@
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4091FAC80030027EE55 /* Info.plist */,
 				CAFDF40A1FAC80030027EE55 /* main.m */,
+				CA2B21101FCDBAA700E31DD1 /* ReadMe.rtf */,
 			);
 			path = "FinalProject-LOLRankedCompanion";
 			sourceTree = "<group>";
@@ -318,6 +326,7 @@
 				CAD86E961FBB03C400567239 /* provisional.png in Resources */,
 				CAD86E931FBB03C400567239 /* master.png in Resources */,
 				CAD86E911FBB03C400567239 /* silver.png in Resources */,
+				CA2B21111FCDBAA700E31DD1 /* ReadMe.rtf in Resources */,
 				CAFDF4031FAC80030027EE55 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +357,7 @@
 				CAFDF43B1FB3512C0027EE55 /* DataModel.m in Sources */,
 				CAFDF4351FB3504A0027EE55 /* LadderTableViewController.m in Sources */,
 				CAFDF4381FB3511A0027EE55 /* Summoner.m in Sources */,
+				CA2B210F1FCC7E1B00E31DD1 /* CustomTabBarViewController.m in Sources */,
 				CAFDF3FA1FAC80030027EE55 /* AppDelegate.m in Sources */,
 				CAFDF4321FB350240027EE55 /* GameTableViewController.m in Sources */,
 				CAFDF40B1FAC80030027EE55 /* main.m in Sources */,
