@@ -183,11 +183,11 @@
 				CAFDF43A1FB3512C0027EE55 /* DataModel.m */,
 				CAFDF4011FAC80030027EE55 /* Main.storyboard */,
 				CAFDF4061FAC80030027EE55 /* LaunchScreen.storyboard */,
+				CA2B21101FCDBAA700E31DD1 /* ReadMe.rtf */,
 				CAD86EDD1FBB750300567239 /* Rank Images */,
 				CAFDF4041FAC80030027EE55 /* Assets.xcassets */,
 				CAFDF4091FAC80030027EE55 /* Info.plist */,
 				CAFDF40A1FAC80030027EE55 /* main.m */,
-				CA2B21101FCDBAA700E31DD1 /* ReadMe.rtf */,
 			);
 			path = "FinalProject-LOLRankedCompanion";
 			sourceTree = "<group>";

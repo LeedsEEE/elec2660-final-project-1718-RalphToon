@@ -16,13 +16,12 @@ static DataModel *_sharedInstance;
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.currentUserSummoner = [[Summoner alloc]init];
         self.currentUserLadder = [NSMutableArray array];
         self.liveGamePlayers = [NSMutableArray array];
         
         //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-d9b7eecd-7422-46b4-93ac-74b8682eedb5"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-436c1558-17c2-4a70-a38c-49a5ec56ec75"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -141,6 +140,7 @@ static DataModel *_sharedInstance;
 
 #pragma mark populatuing methods
 - (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
+    self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner
     NSString *requestString;
     
     //SUMMONER V3 CALL
