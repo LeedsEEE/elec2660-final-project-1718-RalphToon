@@ -140,91 +140,109 @@ static DataModel *_sharedInstance;
 
 #pragma mark populatuing methods
 - (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
-    self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner
-    NSString *requestString;
+    self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner    
+    [self summonerByName:name]; //SUMMONER V3 CALL
+    [self championMasteryBySummoner:self.currentUserSummoner]; //CHAMPION MASTERY V3 CALL
+    [self leaguePositionsBySummoner:self.currentUserSummoner]; //LEAGUE V3 CALL
+}
+
+
+-(void) populateLadder { //METHOD API CALLS: 1
+    [self leagueByLeagueID:self.currentUserSummoner]; //LEAGUE V3 CALL
+
+}
+
+
+-(void) populatePlayers { //METHOD API CALLS: 11
+    [self activeGameBySummoner:self.currentUserSummoner];
     
-    //SUMMONER V3 CALL
-    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], name, self.apiKey];
+}
+
+
+
+#pragma mark NEW CODE STARTS HERE
+- (void) summonerByName:(NSString *)name {
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], name, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Arguments are NULL as no extra processing required
     while (!self.completionFlag) { //Holds the program until data is recieved
     }                              //This is not best practice, update if time is left
     
     if ([self checkDataIntegrity:self.dataDict]) { //If data is correct we update the summoner
+        //Method currently only used with UserSummoner so we change it directly
         self.currentUserSummoner.summonerName = [self.dataDict objectForKey:@"name"];
         self.currentUserSummoner.summonerID = [self.dataDict objectForKey:@"id"];
         self.currentUserSummoner.accountID = [self.dataDict objectForKey:@"accountId"];
     }
-    
-    //CHAMPION MASTERY V3 CALL
-    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
-    [self getURLData:requestString withKey:@"playerId" withData:self.currentUserSummoner.summonerID]; //Arguments needed as JSON data is array
+}
+
+
+- (void) championMasteryBySummoner:(Summoner *)summoner {
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
+    [self getURLData:requestString withKey:@"playerId" withData:summoner.summonerID]; //Arguments needed as JSON data is array
     while (!self.completionFlag) {
     }
     
     if ([self checkDataIntegrity:self.dataDict]) {
-        self.currentUserSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
-        self.currentUserSummoner.favChamp = [self searchChampList:[[self.dataDict objectForKey:@"championId"] integerValue]];
+        summoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
+        summoner.favChamp = [self searchChampList:[[self.dataDict objectForKey:@"championId"] integerValue]];
     }
-    
-    //LEAGUE V3 CALL
-    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
+}
+
+
+- (void) leaguePositionsBySummoner:(Summoner *)summoner {
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
     while (!self.completionFlag) {
     }
     
     if ([self checkDataIntegrity:self.dataDict]) {
-        self.currentUserSummoner.rank = [self.dataDict objectForKey:@"rank"];
-        self.currentUserSummoner.tier = [self.dataDict objectForKey:@"tier"];
-        self.currentUserSummoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
-        self.currentUserSummoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
-        self.currentUserSummoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];
-        self.currentUserSummoner.soloLeagueID = [self.dataDict objectForKey:@"leagueId"];
-        self.currentUserSummoner.soloWinrate = (self.currentUserSummoner.soloWins/(self.currentUserSummoner.soloLosses + self.currentUserSummoner.soloWins))*100;
+        summoner.rank = [self.dataDict objectForKey:@"rank"];
+        summoner.tier = [self.dataDict objectForKey:@"tier"];
+        summoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
+        summoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
+        summoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];
+        summoner.soloLeagueID = [self.dataDict objectForKey:@"leagueId"];
+        summoner.soloWinrate = (summoner.soloWins/(summoner.soloLosses + summoner.soloWins))*100;
     }
 }
 
 
--(void) populateLadder { //METHOD API CALLS: 1
-    NSString *requestString;
+- (void) leagueByLeagueID:(Summoner *)summoner {
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], summoner.soloLeagueID, self.apiKey];
+    [self getURLData:requestString withKey:NULL withData:NULL];
+    while (!self.completionFlag) {
+    }
     
-    //LEAGUE V3 CALL
-    if ([self.currentUserSummoner.soloLeagueID length] > 0) { //Only build the league if the user has one
-        requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], self.currentUserSummoner.soloLeagueID, self.apiKey];
-        [self getURLData:requestString withKey:NULL withData:NULL];
-        while (!self.completionFlag) {
+    //At this point, self.dataDict is a list of all players in the summoner's league that needs to be sorted
+    if ([self checkDataIntegrity:self.dataDict]) {
+        NSMutableArray *tempArray = [self.dataDict objectForKey:@"entries"];
+        
+        for (NSDictionary *entry in tempArray) { //If the player is the same rank, we add them to the ladder
+            if ([[entry objectForKey:@"rank"] isEqual:summoner.rank]) {
+                Summoner *ladderSummoner = [[Summoner alloc] init];
+                ladderSummoner.summonerName = [entry objectForKey:@"playerOrTeamName"];
+                ladderSummoner.summonerID = [entry objectForKey:@"playerOrTeamId"];
+                ladderSummoner.rank = [entry objectForKey:@"rank"];
+                ladderSummoner.tier = summoner.tier;
+                ladderSummoner.leaguePoints = [[entry objectForKey:@"leaguePoints"] integerValue];
+                ladderSummoner.soloWins = [[entry objectForKey:@"wins"] floatValue];
+                [self.currentUserLadder addObject:ladderSummoner]; //This builds an array of summoner objects
+            }
         }
         
-        //At this point, self.dataDict is a list of all players in the league that needs to be sorted
-        if ([self checkDataIntegrity:self.dataDict]) {
-            NSMutableArray *tempArray = [self.dataDict objectForKey:@"entries"];
-            
-            for (NSDictionary *entry in tempArray) { //If the player is the same rank, we add them to the ladder
-                if ([[entry objectForKey:@"rank"] isEqual:self.currentUserSummoner.rank]) {
-                    Summoner *ladderSummoner = [[Summoner alloc] init];
-                    ladderSummoner.summonerName = [entry objectForKey:@"playerOrTeamName"];
-                    ladderSummoner.summonerID = [entry objectForKey:@"playerOrTeamId"];
-                    ladderSummoner.rank = [entry objectForKey:@"rank"];
-                    ladderSummoner.tier = self.currentUserSummoner.tier;
-                    ladderSummoner.leaguePoints = [[entry objectForKey:@"leaguePoints"] integerValue];
-                    ladderSummoner.soloWins = [[entry objectForKey:@"wins"] floatValue];
-                    [self.currentUserLadder addObject:ladderSummoner]; //This builds an array of summoner objects
-                }
-            }
-
-            //Now sort self.currentUserLadder so its in LP (ladder) order
-            //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
-            //Improving this sort can help efficiency if time is left
-            BOOL swapped = YES;
-            while (swapped) {
-                swapped = NO;
-                for (int i = 1; i<[self.currentUserLadder count]; i++) {
-                    Summoner *player1 = self.currentUserLadder[i-1];
-                    Summoner *player2 = self.currentUserLadder[i];
-
-                    if (player1.leaguePoints<player2.leaguePoints) {
-                        [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
-                        swapped = YES;
-                    }
+        //Now sort self.currentUserLadder so its in LP (ladder) order
+        //Using a bubble sort as its easy, we dont need a more efficient method as the list is small (<50)
+        //Improving this sort can help efficiency if time is left
+        BOOL swapped = YES;
+        while (swapped) {
+            swapped = NO;
+            for (int i = 1; i<[self.currentUserLadder count]; i++) {
+                Summoner *player1 = self.currentUserLadder[i-1];
+                Summoner *player2 = self.currentUserLadder[i];
+                
+                if (player1.leaguePoints<player2.leaguePoints) {
+                    [self.currentUserLadder exchangeObjectAtIndex:i-1 withObjectAtIndex:i];
+                    swapped = YES;
                 }
             }
         }
@@ -232,18 +250,14 @@ static DataModel *_sharedInstance;
 }
 
 
--(void) populatePlayers { //METHOD API CALLS: 11
-    //The following method contains a lot of copy paste from populateSummoner
-    //This is poor practice and the structure of the class needs to be improved if time allows
-    NSString *requestString;
-    
+- (void) activeGameBySummoner:(Summoner *)summoner {
     //SPECTATOR V3 CALL
-    requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], self.currentUserSummoner.summonerID, self.apiKey];
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Already a dictionary so we NULL arguments
     while (!self.completionFlag) {
     }
     
-    if ([self checkDataIntegrity:self.dataDict]) {
+    if ([self checkDataIntegrity:self.dataDict]) { //Data dict is a list of the current game data
         NSMutableArray *tempArray = [self.dataDict objectForKey:@"participants"];
         
         for (NSDictionary *entry in tempArray) {
@@ -251,38 +265,16 @@ static DataModel *_sharedInstance;
             gameSummoner.summonerName = [entry objectForKey:@"summonerName"];
             gameSummoner.summonerID = [entry objectForKey:@"summonerId"];
             gameSummoner.currentChamp = [self searchChampList:[[entry objectForKey:@"championId"] integerValue]];
-
-            //CHAMPION MASTERY V3 CALL
-            requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], gameSummoner.summonerID, self.apiKey];
-            [self getURLData:requestString withKey:@"playerId" withData:gameSummoner.summonerID]; //Arguments needed as JSON data is array
-            while (!self.completionFlag) {
-            }
-            
-            if ([self checkDataIntegrity:self.dataDict]) {
-                gameSummoner.champMastery = [[self.dataDict objectForKey:@"championPoints"] integerValue];
-                gameSummoner.favChamp = [self searchChampList:[[self.dataDict objectForKey:@"championId"] integerValue]];
-            }
-            
-            //LEAGUE V3 CALL
-            requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], gameSummoner.summonerID, self.apiKey];
-            [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
-            while (!self.completionFlag) {
-            }
-            
-            if ([self checkDataIntegrity:self.dataDict]) {
-                gameSummoner.rank = [self.dataDict objectForKey:@"rank"];
-                gameSummoner.tier = [self.dataDict objectForKey:@"tier"];
-                gameSummoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
-                gameSummoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
-                gameSummoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];
-                gameSummoner.soloLeagueID = [self.dataDict objectForKey:@"leagueId"];
-                gameSummoner.soloWinrate = (gameSummoner.soloWins/(gameSummoner.soloLosses + gameSummoner.soloWins))*100;
-            }
+            [self championMasteryBySummoner:gameSummoner];
+            [self leaguePositionsBySummoner:gameSummoner];
             
             [self.liveGamePlayers addObject:gameSummoner];
         }
     }
 }
+
+
+
 
 
  @end

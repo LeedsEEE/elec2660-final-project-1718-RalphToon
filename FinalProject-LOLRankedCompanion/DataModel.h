@@ -35,5 +35,14 @@
 - (void) populatePlayers;
 - (NSString *) searchChampList:(NSInteger)champId;
 
+//NEW POPULATING METHODS HERE
+- (void) summonerByName:(NSString *)name;
+- (void) championMasteryBySummoner:(Summoner *)summoner;
+- (void) leaguePositionsBySummoner:(Summoner *)summoner;
+- (void) leagueByLeagueID:(Summoner *)summoner;
+- (void) activeGameBySummoner:(Summoner *)summoner;
+
+
+
 
 @end
