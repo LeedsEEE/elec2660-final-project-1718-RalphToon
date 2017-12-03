@@ -21,7 +21,7 @@ static DataModel *_sharedInstance;
         
         //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-436c1558-17c2-4a70-a38c-49a5ec56ec75"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-d5b40894-dce2-41f1-bf2a-6e7ced15915d"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -186,7 +186,6 @@ static DataModel *_sharedInstance;
 
 -(void) populateLadder { //METHOD API CALLS: 1
     NSString *requestString;
-    [self.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
     
     //LEAGUE V3 CALL
     if ([self.currentUserSummoner.soloLeagueID length] > 0) { //Only build the league if the user has one
@@ -236,7 +235,6 @@ static DataModel *_sharedInstance;
 -(void) populatePlayers { //METHOD API CALLS: 11
     //The following method contains a lot of copy paste from populateSummoner
     //This is poor practice and the structure of the class needs to be improved if time allows
-    [self.liveGamePlayers removeAllObjects];
     NSString *requestString;
     
     //SPECTATOR V3 CALL

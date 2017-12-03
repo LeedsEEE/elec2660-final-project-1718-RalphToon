@@ -35,6 +35,9 @@
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
     DataModel *dataModel = [DataModel sharedInstance];
     dataModel.errorMessage = @"";
+    [dataModel.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
+    [dataModel.liveGamePlayers removeAllObjects];
+
     [dataModel populateSummoner:self.nameField.text]; //Attempt to populate the summoner
     if ([dataModel.errorMessage isEqualToString:@"Empty data array returned"]) {
         dataModel.errorMessage = @"Note: User is unranked and has no Ladder";
@@ -55,7 +58,6 @@
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
         self.showProfileButton.enabled = YES;
-        
     }
     
     else { //If we dont get valid summoner data, we dont let the user into the app
