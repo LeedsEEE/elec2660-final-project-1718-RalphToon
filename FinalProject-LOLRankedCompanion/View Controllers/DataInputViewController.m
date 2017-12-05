@@ -55,7 +55,7 @@
         [dataModel populatePlayers]; //Likely to throw a Data not found error
         if ([dataModel.errorMessage isEqualToString:@"Error: Data not found"]) {
             //Make the error message more user friendly
-            dataModel.errorMessage = @"Live game data not available";
+            dataModel.errorMessage = @"Note: User is not currently in a game";
         }
         
         if ([dataModel.currentUserSummoner.soloLeagueID length]>0) { //If the player has a league, we retrieve it

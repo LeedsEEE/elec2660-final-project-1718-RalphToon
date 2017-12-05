@@ -55,13 +55,17 @@
         Summoner *tempSummoner = dataModel.liveGamePlayers[indexPath.row];
         cell.textLabel.text = tempSummoner.summonerName;
         cell.detailTextLabel.text = tempSummoner.currentChamp;
-        //cell.imageView.image = [UIImage imageNamed:imageName];
+        NSString *champName = [tempSummoner.currentChamp stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *imageName = [NSString stringWithFormat:@"%@Square.png", champName];
+        cell.imageView.image = [UIImage imageNamed:imageName];
     }
     else if (indexPath.section == 1) {
         Summoner *tempSummoner = dataModel.liveGamePlayers[(indexPath.row +5)];
         cell.textLabel.text = tempSummoner.summonerName;
         cell.detailTextLabel.text = tempSummoner.currentChamp;
-        //cell.imageView.image = [UIImage imageNamed:imageName];
+        NSString *champName = [tempSummoner.currentChamp stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+        NSString *imageName = [NSString stringWithFormat:@"%@Square.png", champName];
+        cell.imageView.image = [UIImage imageNamed:imageName];
     }
     
     cell.textLabel.textColor = [UIColor whiteColor];
