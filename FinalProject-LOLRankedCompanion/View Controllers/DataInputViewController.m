@@ -34,27 +34,31 @@
 #pragma mark DataInput button methods
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
     DataModel *dataModel = [DataModel sharedInstance];
-    dataModel.errorMessage = @"";
-    [dataModel.currentUserLadder removeAllObjects]; //Clear the ladder entries for a new user
+    dataModel.errorMessage = @""; //Clear any error messages
+    [dataModel.currentUserLadder removeAllObjects]; //Clear entries for a new user
     [dataModel.liveGamePlayers removeAllObjects];
 
     [dataModel populateSummoner:self.nameField.text]; //Attempt to populate the summoner
-    if ([dataModel.errorMessage isEqualToString:@"Empty data array returned"]) {
-        dataModel.errorMessage = @"Note: User is unranked and has no Ladder";
-    }
     
     if ([dataModel.errorMessage isEqualToString:@""] || [dataModel.errorMessage isEqualToString:@"Note: User is unranked and has no Ladder"]) {
-        //If we have no error getting the summoner, we can get the other data
-        if ([dataModel.currentUserSummoner.soloLeagueID length]>0) { //If the player has a league, we retrieve it
-            [dataModel populateLadder];
-        }
+        //If we have no error finding the summoner, we can get the other data
         
         /*
          We try to populate the game whether it exists or not
          As we have no test to see if one does.
          If the player is not in a game this simply returns an error message that we can ignore.
-        */
-        [dataModel populatePlayers];
+         */
+        [dataModel populatePlayers]; //Likely to throw a Data not found error
+        if ([dataModel.errorMessage isEqualToString:@"Error: Data not found"]) {
+            //Make the error message more user friendly
+            dataModel.errorMessage = @"Live game data not available";
+        }
+        
+        if ([dataModel.currentUserSummoner.soloLeagueID length]>0) { //If the player has a league, we retrieve it
+            [dataModel populateLadder];
+        }
+        
+
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
         self.showProfileButton.enabled = YES;

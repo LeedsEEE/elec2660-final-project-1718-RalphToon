@@ -25,8 +25,6 @@
     if ([dataModel.liveGamePlayers count] == 0) { //Disable live game tab if the user is not in a game
         self.tabBar.items[1].enabled = NO;
     }
-
-    NSLog(@"%@", self.tabBar.items);
 }
 
 

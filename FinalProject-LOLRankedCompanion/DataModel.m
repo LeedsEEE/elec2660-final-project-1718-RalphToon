@@ -22,7 +22,7 @@ static DataModel *_sharedInstance;
         
         //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-d5b40894-dce2-41f1-bf2a-6e7ced15915d"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-f6eacd76-c65a-44e6-9fd0-3e96081dde62"; //ENTER API KEY HERE
         
         //Get the champ list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -89,7 +89,9 @@ static DataModel *_sharedInstance;
                     }
                 }
                 else {
-                    self.errorMessage = @"Empty data array returned";
+                    //This situation where we have an array but with no data inside
+                    //can only occur if the user is not yet ranked
+                    self.errorMessage = @"Note: User is unranked and has no Ladder";
                 }
             }
             else { //If the data is a dictionary, we can use it as is
