@@ -26,6 +26,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)updateView {
     DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
     Summoner *selectedSummoner = dataModel.liveGamePlayers[self.playerNumber];

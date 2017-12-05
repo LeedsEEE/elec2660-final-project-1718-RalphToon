@@ -48,11 +48,11 @@
         //If we have no error finding the summoner, we can get the other data
         
         /*
-         We try to populate the game whether it exists or not
+         We try to populate the live game whether it exists or not
          As we have no test to see if one does.
          If the player is not in a game this simply returns an error message that we can ignore.
          */
-        [dataModel populatePlayers]; //Likely to throw a Data not found error
+        [dataModel populatePlayers]; //Throws a "404:Data not found" error if no game exists
         if ([dataModel.errorMessage isEqualToString:@"Error: Data not found"]) {
             //Make the error message more user friendly
             dataModel.errorMessage = @"Note: User is not currently in a game";
@@ -62,7 +62,6 @@
             [dataModel populateLadder];
         }
         
-
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
         self.showProfileButton.enabled = YES;
@@ -78,7 +77,9 @@
 }
 
 
-- (IBAction)showProfilePressed:(id)sender { //Unused for this app, button is used for a storyboard segue
+- (IBAction)showProfilePressed:(id)sender {
+    //Unused for this app, button is used for a storyboard segue
+    //This method has been left in for future features
 }
 
 
@@ -86,7 +87,7 @@
 #pragma mark RegionPicker delegate methods
 - (NSAttributedString *)pickerView:(UIPickerView *)pickerView
              attributedTitleForRow:(NSInteger)row
-                      forComponent:(NSInteger)component {
+                      forComponent:(NSInteger)component { //Following allows us to set NSAttributedStrings as the picker components
     DataModel *dataModel = [DataModel sharedInstance];
     NSString *regionString = [NSString stringWithFormat:@"%@", dataModel.regions[row]];
     NSAttributedString *region = [[NSAttributedString alloc] initWithString:regionString attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];

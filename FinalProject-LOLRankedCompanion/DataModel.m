@@ -39,11 +39,46 @@ static DataModel *_sharedInstance;
 }
 
 
+
+#pragma mark Class methods
 +(DataModel *) sharedInstance { //This creates the shared data model if it doesnt exist
     if (!_sharedInstance) {
         _sharedInstance = [[DataModel alloc] init];
     }
     return _sharedInstance;
+}
+
+
+
+#pragma mark populatuing methods
+/*
+ The following populating methods seem sparse and unnecessary
+ however have been included to allow for greater flexibility
+ for adding extra features later
+*/
+
+- (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
+    self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner    
+    
+    [self summonerByName:name];
+    if (![self.errorMessage isEqualToString:@"Error: Data not found - summoner not found"]) { //If we have found a summoner with the above name
+        [self championMasteryBySummoner:self.currentUserSummoner];
+        [self leaguePositionsBySummoner:self.currentUserSummoner];
+    }
+    
+    else {
+        self.errorMessage = @"Summoner does not exist";
+    }
+}
+
+
+-(void) populateLadder { //METHOD API CALLS: 1
+    [self leagueByLeagueID:self.currentUserSummoner];
+}
+
+
+-(void) populatePlayers { //METHOD API CALLS: 11
+    [self activeGameBySummoner:self.currentUserSummoner];
 }
 
 
@@ -54,7 +89,7 @@ static DataModel *_sharedInstance;
  Everytime getURLData is called 1 request is used
  Max number of calls limited to 20/sec AND 100/2mins
  Everytime getData is pressed 15 calls are made
-*/
+ */
 
 - (void) getURLData:(NSString *)requestString
             withKey:(NSString *)dataKey
@@ -68,46 +103,46 @@ static DataModel *_sharedInstance;
     [[[NSURLSession sharedSession] dataTaskWithURL:[NSURL URLWithString:requestString]
                                  completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
                                      
-        if (data != NULL) { //We can only use the data if we get a response
-            
-            if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
-                //If data is in array format, we need to do some extra processing
-                NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                
-                if ([tempArray count] > 0) { //We search a populated array for our dataDict
-                    BOOL dataNotFound = YES;
-                    int count = 0;
-                    while (dataNotFound) {
-                        NSMutableDictionary *selectedDict = tempArray[count];
-                        if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
-                            self.dataDict = selectedDict;
-                            dataNotFound = NO;
-                        }
-                        else {
-                            count++;
-                        }
-                    }
-                }
-                else {
-                    //This situation where we have an array but with no data inside
-                    //can only occur if the user is not yet ranked
-                    self.errorMessage = @"Note: User is unranked and has no Ladder";
-                }
-            }
-            else { //If the data is a dictionary, we can use it as is
-                self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-            }
-        }
-        self.completionFlag = YES;
-        /*
-         Possible finish states for dataDict after above method:
-         If nothing is returned: dataDict = NULL
-         If dictionary is returned: dataDict is the response dict NO MATTER THE CONTENTS
-         If array is returned: If array is populated, we select our dict;
-                               If array is empty we update the error message and dataDict = NULL
-        */
-                                    
-    }]resume];
+                                     if (data != NULL) { //We can only use the data if we get a response
+                                         
+                                         if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
+                                             //If data is in array format, we need to do some extra processing
+                                             NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                                             
+                                             if ([tempArray count] > 0) { //We search a populated array for our dataDict
+                                                 BOOL dataNotFound = YES;
+                                                 int count = 0;
+                                                 while (dataNotFound) {
+                                                     NSMutableDictionary *selectedDict = tempArray[count];
+                                                     if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
+                                                         self.dataDict = selectedDict;
+                                                         dataNotFound = NO;
+                                                     }
+                                                     else {
+                                                         count++;
+                                                     }
+                                                 }
+                                             }
+                                             else {
+                                                 //This situation where we have an array but with no data inside
+                                                 //can only occur if the user is not yet ranked
+                                                 self.errorMessage = @"Note: User is unranked and has no Ladder";
+                                             }
+                                         }
+                                         else { //If the data is a dictionary, we can use it as is
+                                             self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                                         }
+                                     }
+                                     self.completionFlag = YES;
+                                     /*
+                                      Possible finish states for dataDict after above method:
+                                      If nothing is returned: dataDict = NULL
+                                      If dictionary is returned: dataDict is the response dict NO MATTER THE CONTENTS
+                                      If array is returned: If array is populated, we select our dict;
+                                      If array is empty we update the error message and dataDict = NULL
+                                      */
+                                     
+                                 }]resume];
     //Above method adapted from https://www.youtube.com/watch?v=kbNnQ6VV1zo
     //and using Apple Documentation tutorial https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/URLLoadingSystem/Articles/UsingNSURLSession.html#//apple_ref/doc/uid/TP40013509-SW1
 }
@@ -130,10 +165,10 @@ static DataModel *_sharedInstance;
                 correctData = NO;
                 NSDictionary *errorDict = [dataDict objectForKey:@"status"];
                 self.errorMessage = [NSString stringWithFormat:@"Error: %@",[errorDict objectForKey:@"message"]];
-            
+                
                 //Print complete error to console for debugging
                 NSLog(@"Error Code = %@ %@", [errorDict objectForKey:@"status_code"], [errorDict objectForKey:@"message"]);
-        
+                
             }
         }
     }
@@ -152,44 +187,14 @@ static DataModel *_sharedInstance;
 }
 
 
-
-#pragma mark populatuing methods
-/*
- The following populating methods seem sparse and unnecessary
- however have been included to allow for greater flexibility
- for adding extra features later
-*/
-
-- (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
-    self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner    
-    [self summonerByName:name]; //SUMMONER V3 CALL
-    [self championMasteryBySummoner:self.currentUserSummoner]; //CHAMPION MASTERY V3 CALL
-    [self leaguePositionsBySummoner:self.currentUserSummoner]; //LEAGUE V3 CALL
-}
-
-
--(void) populateLadder { //METHOD API CALLS: 1
-    [self leagueByLeagueID:self.currentUserSummoner]; //LEAGUE V3 CALL
-
-}
-
-
--(void) populatePlayers { //METHOD API CALLS: 11
-    [self activeGameBySummoner:self.currentUserSummoner];
-    
-}
-
-
-
-#pragma mark NEW CODE STARTS HERE
-- (void) summonerByName:(NSString *)name {
+- (void) summonerByName:(NSString *)name { //Summoner V3 Call
     //First we must format 'name' so it can be used in a URL
     NSString *formattedName = [name stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
     
     NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], formattedName, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Arguments are NULL as no extra processing required
     while (!self.completionFlag) { //Holds the program until data is recieved
-    }                              //This is not best practice, update if time is left
+    } 
     
     if ([self checkDataIntegrity:self.dataDict]) { //If data is correct we update the summoner
         //Method currently only used with UserSummoner so we change it directly
@@ -200,7 +205,7 @@ static DataModel *_sharedInstance;
 }
 
 
-- (void) championMasteryBySummoner:(Summoner *)summoner {
+- (void) championMasteryBySummoner:(Summoner *)summoner { //Mastery V3 Call
     NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/champion-mastery/v3/champion-masteries/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:@"playerId" withData:summoner.summonerID]; //Arguments needed as JSON data is array
     while (!self.completionFlag) {
@@ -213,7 +218,7 @@ static DataModel *_sharedInstance;
 }
 
 
-- (void) leaguePositionsBySummoner:(Summoner *)summoner {
+- (void) leaguePositionsBySummoner:(Summoner *)summoner { //League V3 Call
     NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/positions/by-summoner/%@?api_key=%@",self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:@"queueType" withData:@"RANKED_SOLO_5x5"];
     while (!self.completionFlag) {
@@ -231,7 +236,7 @@ static DataModel *_sharedInstance;
 }
 
 
-- (void) leagueByLeagueID:(Summoner *)summoner {
+- (void) leagueByLeagueID:(Summoner *)summoner { //League V3 Call
     NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/league/v3/leagues/%@?api_key=%@",self.regions[self.selectedRegion], summoner.soloLeagueID, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL];
     while (!self.completionFlag) {
@@ -274,8 +279,7 @@ static DataModel *_sharedInstance;
 }
 
 
-- (void) activeGameBySummoner:(Summoner *)summoner {
-    //SPECTATOR V3 CALL
+- (void) activeGameBySummoner:(Summoner *)summoner { //Spectator V3 Call
     NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/spectator/v3/active-games/by-summoner/%@?api_key=%@", self.regions[self.selectedRegion], summoner.summonerID, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Already a dictionary so we NULL arguments
     while (!self.completionFlag) {
@@ -297,5 +301,4 @@ static DataModel *_sharedInstance;
     }
 }
 
-
- @end
+@end

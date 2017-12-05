@@ -26,6 +26,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 - (void)updateView { //updateView method created separately to viewDidLoad so app can be expanded more easily
     DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
     self.nameLabel.text = dataModel.currentUserSummoner.summonerName;

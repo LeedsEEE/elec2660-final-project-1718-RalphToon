@@ -22,7 +22,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *favChampLabel;
 @property (weak, nonatomic) IBOutlet UILabel *champMasteryLabel;
 @property (weak, nonatomic) IBOutlet UILabel *currentChampLabel;
-
 @property (weak, nonatomic) IBOutlet UIImageView *rankImage;
 
 - (void)updateView;
