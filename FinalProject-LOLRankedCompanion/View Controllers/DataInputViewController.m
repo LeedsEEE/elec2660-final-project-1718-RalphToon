@@ -21,6 +21,8 @@
     self.errorLabel.hidden = YES;
     self.regionPicker.delegate = self;
     self.regionPicker.dataSource = self;
+    self.loadingIndicator.hidesWhenStopped = YES; //Configure the loading icon
+    [self.loadingIndicator stopAnimating];
 }
 
 
@@ -33,11 +35,13 @@
 
 #pragma mark DataInput button methods
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
+    [self.loadingIndicator startAnimating];
     DataModel *dataModel = [DataModel sharedInstance];
-    dataModel.errorMessage = @""; //Clear any error messages
+    dataModel.errorMessage = @""; //Clear any previous error messages
     [dataModel.currentUserLadder removeAllObjects]; //Clear entries for a new user
     [dataModel.liveGamePlayers removeAllObjects];
-
+    
+    [self.loadingIndicator startAnimating];
     [dataModel populateSummoner:self.nameField.text]; //Attempt to populate the summoner
     
     if ([dataModel.errorMessage isEqualToString:@""] || [dataModel.errorMessage isEqualToString:@"Note: User is unranked and has no Ladder"]) {
@@ -62,17 +66,19 @@
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
         self.showProfileButton.enabled = YES;
+        [self.loadingIndicator stopAnimating];
     }
     
     else { //If we dont get valid summoner data, we dont let the user into the app
         self.showProfileButton.enabled = NO;
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
+        [self.loadingIndicator stopAnimating];
     }
 }
 
 
-- (IBAction)showProfilePressed:(id)sender {
+- (IBAction)showProfilePressed:(id)sender { //Unused for this app, button is used for a storyboard segue
 }
 
 
@@ -93,7 +99,7 @@
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component {
     DataModel *dataModel = [DataModel sharedInstance];
-    dataModel.selectedRegion = row; //Simply get the array index
+    dataModel.selectedRegion = row; //Simply get the array index from the region list
 }
 
 
@@ -107,7 +113,7 @@
 
 - (NSInteger)pickerView:(nonnull UIPickerView *)pickerView
 numberOfRowsInComponent:(NSInteger)component {
-    NSInteger rows = 11; //We have 11 regions, this is fixed by riot
+    NSInteger rows = 11; //We have 11 regions in the region list, this is static
     return rows;
 }
 

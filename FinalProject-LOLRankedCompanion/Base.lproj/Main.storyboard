@@ -440,16 +440,21 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Tag" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RYC-Qp-3k8">
-                                <rect key="frame" x="20" y="499.5" width="335" height="21"/>
+                                <rect key="frame" x="20" y="424.5" width="335" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Jhb-Mw-TV7">
+                                <rect key="frame" x="169" y="374" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="0.16" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="675-SA-y7z" firstAttribute="leading" secondItem="vHb-DE-Bys" secondAttribute="trailing" constant="123" id="1Ji-0Y-ffC"/>
+                            <constraint firstItem="Jhb-Mw-TV7" firstAttribute="centerX" secondItem="8oM-ks-fQS" secondAttribute="centerX" id="3Hj-vR-1uP"/>
                             <constraint firstItem="Mte-bA-cAx" firstAttribute="leading" secondItem="dAY-6z-bQg" secondAttribute="trailing" constant="10" id="5i9-ai-boW"/>
+                            <constraint firstItem="Jhb-Mw-TV7" firstAttribute="top" secondItem="vHb-DE-Bys" secondAttribute="bottom" constant="25" id="6mj-Dx-tdH"/>
                             <constraint firstItem="vHb-DE-Bys" firstAttribute="top" secondItem="dAY-6z-bQg" secondAttribute="bottom" constant="200" id="Bkg-lV-iFk"/>
                             <constraint firstItem="jOP-Mg-2Ma" firstAttribute="top" secondItem="8oM-ks-fQS" secondAttribute="top" constant="10" id="CP3-b0-2Im"/>
                             <constraint firstItem="dAY-6z-bQg" firstAttribute="top" secondItem="jOP-Mg-2Ma" secondAttribute="bottom" constant="35" id="G5C-2h-lC1"/>
@@ -457,7 +462,7 @@
                             <constraint firstItem="Dzf-2l-WSi" firstAttribute="centerY" secondItem="wW0-71-Su0" secondAttribute="centerY" id="WIW-Xy-THf"/>
                             <constraint firstItem="Dzf-2l-WSi" firstAttribute="leading" secondItem="8oM-ks-fQS" secondAttribute="leading" constant="20" id="cs0-Ie-Vsm"/>
                             <constraint firstItem="8oM-ks-fQS" firstAttribute="trailing" secondItem="RYC-Qp-3k8" secondAttribute="trailing" constant="20" id="d2R-Qh-jSL"/>
-                            <constraint firstItem="RYC-Qp-3k8" firstAttribute="top" secondItem="vHb-DE-Bys" secondAttribute="bottom" constant="150" id="dWm-3K-eAI"/>
+                            <constraint firstItem="RYC-Qp-3k8" firstAttribute="top" secondItem="vHb-DE-Bys" secondAttribute="bottom" constant="75" id="dWm-3K-eAI"/>
                             <constraint firstItem="vHb-DE-Bys" firstAttribute="leading" secondItem="8oM-ks-fQS" secondAttribute="leading" constant="60" id="eDC-Vv-yBf"/>
                             <constraint firstItem="jOP-Mg-2Ma" firstAttribute="leading" secondItem="8oM-ks-fQS" secondAttribute="leading" constant="20" id="eIe-ng-EtC"/>
                             <constraint firstItem="8oM-ks-fQS" firstAttribute="trailing" secondItem="Mte-bA-cAx" secondAttribute="trailing" constant="20" id="h2Q-yr-cCR"/>
@@ -472,6 +477,7 @@
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="RYC-Qp-3k8" id="nPu-3u-ncM"/>
+                        <outlet property="loadingIndicator" destination="Jhb-Mw-TV7" id="K1I-OS-AQZ"/>
                         <outlet property="nameField" destination="Mte-bA-cAx" id="DQt-zp-XEb"/>
                         <outlet property="regionPicker" destination="wW0-71-Su0" id="SNz-bb-GWD"/>
                         <outlet property="showProfileButton" destination="675-SA-y7z" id="NFb-MH-lI4"/>

@@ -26,11 +26,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)updateView {
+- (void)updateView { //updateView method created separately to viewDidLoad so app can be expanded more easily
     DataModel *dataModel = [DataModel sharedInstance]; //This allows us to use the DataModel
     self.nameLabel.text = dataModel.currentUserSummoner.summonerName;
     
-    if ([dataModel.currentUserSummoner.rank length] == 0) { //If the user is unranked
+    if ([dataModel.currentUserSummoner.rank length] == 0) { //If the user is unranked we have to treat the data differently
         self.rankLabel.text = @"Rank = Unranked";
         self.rankImage.image = [UIImage imageNamed:@"provisional.png"];
         self.lpLabel.text = @"LP = N/A";
@@ -48,8 +48,6 @@
     
     self.favChampLabel.text = [NSString stringWithFormat:@"Favourite Champion = %@", dataModel.currentUserSummoner.favChamp];
     self.masteryLabel.text = [NSString stringWithFormat:@"Mastery = %ld", dataModel.currentUserSummoner.champMastery];
-    
-
 }
 
 @end

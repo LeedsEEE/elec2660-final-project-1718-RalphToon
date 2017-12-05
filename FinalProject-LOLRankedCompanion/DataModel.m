@@ -24,7 +24,7 @@ static DataModel *_sharedInstance;
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
         self.apiKey = @"RGAPI-f6eacd76-c65a-44e6-9fd0-3e96081dde62"; //ENTER API KEY HERE
         
-        //Get the champ list
+        //Get the champion list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
         [self getURLData:requestString withKey:NULL withData:NULL];
         while (!self.completionFlag) {
@@ -154,6 +154,12 @@ static DataModel *_sharedInstance;
 
 
 #pragma mark populatuing methods
+/*
+ The following populating methods seem sparse and unnecessary
+ however have been included to allow for greater flexibility
+ for adding extra features later
+*/
+
 - (void) populateSummoner:(NSString *)name { //METHOD API CALLS: 3
     self.currentUserSummoner = [[Summoner alloc]init]; //Create the new summoner    
     [self summonerByName:name]; //SUMMONER V3 CALL
@@ -177,7 +183,10 @@ static DataModel *_sharedInstance;
 
 #pragma mark NEW CODE STARTS HERE
 - (void) summonerByName:(NSString *)name {
-    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], name, self.apiKey];
+    //First we must format 'name' so it can be used in a URL
+    NSString *formattedName = [name stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    
+    NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/summoner/v3/summoners/by-name/%@?api_key=%@", self.regions[self.selectedRegion], formattedName, self.apiKey];
     [self getURLData:requestString withKey:NULL withData:NULL]; //Arguments are NULL as no extra processing required
     while (!self.completionFlag) { //Holds the program until data is recieved
     }                              //This is not best practice, update if time is left
