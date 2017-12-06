@@ -22,7 +22,7 @@ static DataModel *_sharedInstance;
         
         //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-f6eacd76-c65a-44e6-9fd0-3e96081dde62"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-f5c47663-9f6f-4a0c-8442-29834bc14ebd"; //ENTER API KEY HERE
         
         //Get the champion list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -108,11 +108,11 @@ static DataModel *_sharedInstance;
                                          if ([[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil] isKindOfClass:[NSArray class]]) {
                                              //If data is in array format, we need to do some extra processing
                                              NSMutableArray *tempArray = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                                             
+                                            
+                                             BOOL dataNotFound = YES;
                                              if ([tempArray count] > 0) { //We search a populated array for our dataDict
-                                                 BOOL dataNotFound = YES;
                                                  int count = 0;
-                                                 while (dataNotFound) {
+                                                 while (dataNotFound && ([tempArray count]>count)) {
                                                      NSMutableDictionary *selectedDict = tempArray[count];
                                                      if ([[selectedDict objectForKey:dataKey] isEqual:keyData]) {
                                                          self.dataDict = selectedDict;
@@ -128,7 +128,12 @@ static DataModel *_sharedInstance;
                                                  //can only occur if the user is not yet ranked
                                                  self.errorMessage = @"Note: User is unranked and has no Ladder";
                                              }
+                                             
+                                             if (dataNotFound) { //If we cant find our dataDict in the array
+                                                 self.errorMessage = @"Note: User is unranked and has no Ladder";
+                                             }
                                          }
+                                         
                                          else { //If the data is a dictionary, we can use it as is
                                              self.dataDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
                                          }
@@ -139,8 +144,9 @@ static DataModel *_sharedInstance;
                                       If nothing is returned: dataDict = NULL
                                       If dictionary is returned: dataDict is the response dict NO MATTER THE CONTENTS
                                       If array is returned: If array is populated, we select our dict;
+                                      If our data is not present, then dataDict = NULL;
                                       If array is empty we update the error message and dataDict = NULL
-                                      */
+                                     */
                                      
                                  }]resume];
     //Above method adapted from https://www.youtube.com/watch?v=kbNnQ6VV1zo

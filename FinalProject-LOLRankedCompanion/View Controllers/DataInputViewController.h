@@ -15,7 +15,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
 @property (weak, nonatomic) IBOutlet UILabel *errorLabel;
 @property (weak, nonatomic) IBOutlet UIPickerView *regionPicker;
-@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 - (IBAction)getDataPressed:(id)sender;
 - (IBAction)showProfilePressed:(id)sender;

@@ -21,8 +21,6 @@
     self.errorLabel.hidden = YES;
     self.regionPicker.delegate = self;
     self.regionPicker.dataSource = self;
-    self.loadingIndicator.hidesWhenStopped = YES; //Configure the loading icon
-    [self.loadingIndicator stopAnimating];
 }
 
 
@@ -35,13 +33,11 @@
 
 #pragma mark DataInput button methods
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
-    [self.loadingIndicator startAnimating];
     DataModel *dataModel = [DataModel sharedInstance];
     dataModel.errorMessage = @""; //Clear any previous error messages
     [dataModel.currentUserLadder removeAllObjects]; //Clear entries for a new user
     [dataModel.liveGamePlayers removeAllObjects];
     
-    [self.loadingIndicator startAnimating];
     [dataModel populateSummoner:self.nameField.text]; //Attempt to populate the summoner
     
     if ([dataModel.errorMessage isEqualToString:@""] || [dataModel.errorMessage isEqualToString:@"Note: User is unranked and has no Ladder"]) {
@@ -65,14 +61,12 @@
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
         self.showProfileButton.enabled = YES;
-        [self.loadingIndicator stopAnimating];
     }
     
     else { //If we dont get valid summoner data, we dont let the user into the app
         self.showProfileButton.enabled = NO;
         self.errorLabel.text = dataModel.errorMessage;
         self.errorLabel.hidden = NO;
-        [self.loadingIndicator stopAnimating];
     }
 }
 
