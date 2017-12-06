@@ -31,7 +31,7 @@
 
 
 
-#pragma mark DataInput button methods
+#pragma mark ViewController methods
 - (IBAction)getDataPressed:(id)sender { //This triggers the dataModel to populate itself
     DataModel *dataModel = [DataModel sharedInstance];
     dataModel.errorMessage = @""; //Clear any previous error messages
@@ -76,6 +76,12 @@
     //This method has been left in for future features
 }
 
+- (IBAction)backgroundPressed:(id)sender {
+    if ([self.nameField isFirstResponder]) {
+        [self.nameField resignFirstResponder];
+    }
+}
+
 
 
 #pragma mark RegionPicker delegate methods
@@ -112,6 +118,14 @@ numberOfRowsInComponent:(NSInteger)component {
     return rows;
 }
 
+
+
+#pragma mark nameField delegate methods
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    //Used to hide the keyboard when return is pressed
+    [textField resignFirstResponder];
+    return YES;
+}
 
 
 /*

@@ -386,7 +386,7 @@
         <scene sceneID="qZd-HT-rq0">
             <objects>
                 <viewController id="eVQ-zu-SNr" customClass="DataInputViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Hgu-hl-REt">
+                    <view key="view" contentMode="scaleToFill" id="Hgu-hl-REt" customClass="UIControl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -404,7 +404,10 @@
                                 <rect key="frame" x="173" y="94" width="127" height="30"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                <connections>
+                                    <outlet property="delegate" destination="eVQ-zu-SNr" id="lts-Ko-CfQ"/>
+                                </connections>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sign In" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jOP-Mg-2Ma">
                                 <rect key="frame" x="20" y="30" width="82" height="33.5"/>
@@ -470,6 +473,9 @@
                             <constraint firstItem="dAY-6z-bQg" firstAttribute="leading" secondItem="8oM-ks-fQS" secondAttribute="leading" constant="20" id="y7N-MV-lGd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8oM-ks-fQS"/>
+                        <connections>
+                            <action selector="backgroundPressed:" destination="eVQ-zu-SNr" eventType="touchUpInside" id="vuF-fp-CgE"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="errorLabel" destination="RYC-Qp-3k8" id="nPu-3u-ncM"/>

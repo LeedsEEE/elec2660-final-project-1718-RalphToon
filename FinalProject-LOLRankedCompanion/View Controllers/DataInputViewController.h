@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DataModel.h"
 
-@interface DataInputViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface DataInputViewController : UIViewController <UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton *showProfileButton;
 @property (weak, nonatomic) IBOutlet UITextField *nameField;
@@ -18,5 +18,6 @@
 
 - (IBAction)getDataPressed:(id)sender;
 - (IBAction)showProfilePressed:(id)sender;
+- (IBAction)backgroundPressed:(id)sender;
 
 @end
