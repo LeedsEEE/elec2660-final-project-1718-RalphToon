@@ -18,6 +18,7 @@
 //Obtained by League V3 (1 call)
 @property NSString *rank;             //e.g. II, III
 @property NSString *tier;             //e.g. BRONZE, GOLD
+@property NSString *soloLeagueName;   //e.g. Lulu's Heroes
 @property NSInteger leaguePoints;
 @property float soloWins;         //This is only set up for solo q for the
 @property float soloLosses;       //purposes of the app

@@ -22,7 +22,7 @@ static DataModel *_sharedInstance;
         
         //Define the static portions of the dataModel
         self.regions = @[@"ru", @"kr", @"br1", @"oc1", @"jp1", @"na1", @"eun1", @"euw1", @"tr1", @"la1", @"la2"];
-        self.apiKey = @"RGAPI-f5c47663-9f6f-4a0c-8442-29834bc14ebd"; //ENTER API KEY HERE
+        self.apiKey = @"RGAPI-4da2275e-f6c6-4ec1-b2b3-015b1019d351"; //ENTER API KEY HERE
         
         //Get the champion list
         NSString *requestString = [NSString stringWithFormat:@"https://%@.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=false&api_key=%@", self.regions[self.selectedRegion], self.apiKey];
@@ -233,6 +233,7 @@ static DataModel *_sharedInstance;
     if ([self checkDataIntegrity:self.dataDict]) {
         summoner.rank = [self.dataDict objectForKey:@"rank"];
         summoner.tier = [self.dataDict objectForKey:@"tier"];
+        summoner.soloLeagueName = [self.dataDict objectForKey:@"leagueName"];
         summoner.leaguePoints = [[self.dataDict objectForKey:@"leaguePoints"] integerValue];
         summoner.soloWins = [[self.dataDict objectForKey:@"wins"] floatValue];
         summoner.soloLosses = [[self.dataDict objectForKey:@"losses"] floatValue];

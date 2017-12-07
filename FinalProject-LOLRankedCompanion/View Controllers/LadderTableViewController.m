@@ -17,11 +17,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    DataModel *dataModel = [DataModel sharedInstance];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    //Programatically create the overall table header
+    UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 300, 40)];
+    
+    [headerLabel setTextColor:[UIColor colorWithRed:0.99 green:0.76 blue:0.0 alpha:0.9]];
+    [headerLabel setBackgroundColor:[UIColor clearColor]];
+    [headerLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 26.0f]];
+    headerLabel.text = [NSString stringWithFormat:@"%@ %@: %@", dataModel.currentUserSummoner.tier, dataModel.currentUserSummoner.rank, dataModel.currentUserSummoner.soloLeagueName];
+    headerLabel.clipsToBounds = YES;
+    headerLabel.textAlignment = 1;
+    
+    //Above code adapted from: https://stackoverflow.com/questions/3209803/how-to-programmatically-add-text-to-a-uiview
+    self.tableView.tableHeaderView = headerLabel;
 }
 
 
